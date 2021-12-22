@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19455" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19455" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="L8D-QW-UCt">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19454"/>
@@ -9,16 +9,16 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--View Controller-->
+        <!--Login View Controller-->
         <scene sceneID="KP3-bT-Lf0">
             <objects>
-                <viewController id="L8D-QW-UCt" sceneMemberID="viewController">
+                <viewController id="L8D-QW-UCt" customClass="LoginViewController" customModule="etico" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="T0N-U5-b2F">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="background" translatesAutoresizingMaskIntoConstraints="NO" id="aJf-3Q-5fC">
-                                <rect key="frame" x="0.0" y="0.0" width="414" height="513"/>
+                                <rect key="frame" x="0.0" y="-20" width="414" height="513"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="414" id="20k-XQ-YvV"/>
                                     <constraint firstAttribute="height" constant="513" id="sQ3-La-naY"/>
@@ -31,7 +31,7 @@
                                 </constraints>
                             </imageView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="l0A-9R-P5t">
-                                <rect key="frame" x="130" y="814" width="154" height="33"/>
+                                <rect key="frame" x="30" y="814" width="354" height="33"/>
                                 <color key="tintColor" red="0.35686278339999999" green="0.70588237050000002" blue="0.85490196939999996" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="plain">
@@ -44,6 +44,9 @@
                                         </fragment>
                                     </attributedString>
                                 </buttonConfiguration>
+                                <connections>
+                                    <action selector="passwordRecover:" destination="L8D-QW-UCt" eventType="touchUpInside" id="8vO-vi-x9Y"/>
+                                </connections>
                             </button>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="wdX-4y-i6a">
                                 <rect key="frame" x="33" y="287" width="348" height="492"/>
@@ -63,7 +66,7 @@
                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="ahw-2z-fVU">
                                         <rect key="frame" x="41" y="161" width="266" height="34"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                        <textInputTraits key="textInputTraits"/>
+                                        <textInputTraits key="textInputTraits" keyboardType="emailAddress"/>
                                     </textField>
                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="0ON-0F-p65">
                                         <rect key="frame" x="41" y="268" width="266" height="34"/>
@@ -82,7 +85,7 @@
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nbH-sv-cf0">
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nbH-sv-cf0">
                                         <rect key="frame" x="204" y="411" width="119" height="51"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="119" id="foI-ft-NGN"/>
@@ -91,8 +94,13 @@
                                         <color key="tintColor" red="0.84705877299999999" green="0.5176470876" blue="0.65882354970000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                         <state key="normal" title="Button"/>
                                         <buttonConfiguration key="configuration" style="filled" title="Login">
-                                            <fontDescription key="titleFontDescription" type="system" pointSize="19"/>
+                                            <fontDescription key="titleFontDescription" name=".AppleSystemUIFont" family=".AppleSystemUIFont" pointSize="19"/>
+                                            <color key="baseForegroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                            <color key="baseBackgroundColor" red="0.84705877299999999" green="0.5176470876" blue="0.65882354970000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                         </buttonConfiguration>
+                                        <connections>
+                                            <action selector="login:" destination="L8D-QW-UCt" eventType="touchUpInside" id="FSj-6A-jaV"/>
+                                        </connections>
                                     </button>
                                 </subviews>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -124,21 +132,25 @@
                         <color key="backgroundColor" red="0.98872023819999999" green="0.98872023819999999" blue="0.98872023819999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="wdX-4y-i6a" firstAttribute="leading" secondItem="Qeq-tl-GsO" secondAttribute="leading" constant="33" id="EdL-dC-Ug8"/>
-                            <constraint firstItem="l0A-9R-P5t" firstAttribute="leading" secondItem="Qeq-tl-GsO" secondAttribute="leading" constant="130" id="K4M-vG-fvE"/>
+                            <constraint firstItem="l0A-9R-P5t" firstAttribute="leading" secondItem="Qeq-tl-GsO" secondAttribute="leading" constant="30" id="K4M-vG-fvE"/>
                             <constraint firstItem="aJf-3Q-5fC" firstAttribute="trailing" secondItem="Qeq-tl-GsO" secondAttribute="trailing" id="Koa-Fw-yvF"/>
                             <constraint firstItem="9je-i7-wNR" firstAttribute="top" secondItem="Qeq-tl-GsO" secondAttribute="top" constant="43" id="STZ-ha-Ie3"/>
                             <constraint firstItem="wdX-4y-i6a" firstAttribute="top" secondItem="9je-i7-wNR" secondAttribute="bottom" constant="10" id="ThC-C4-ZnQ"/>
                             <constraint firstItem="l0A-9R-P5t" firstAttribute="top" secondItem="wdX-4y-i6a" secondAttribute="bottom" constant="35" id="XV4-Vn-cD5"/>
                             <constraint firstItem="9je-i7-wNR" firstAttribute="leading" secondItem="Qeq-tl-GsO" secondAttribute="leading" id="Zfc-cw-ply"/>
-                            <constraint firstItem="Qeq-tl-GsO" firstAttribute="trailing" secondItem="l0A-9R-P5t" secondAttribute="trailing" constant="130" id="mFK-Sg-u1W"/>
+                            <constraint firstItem="Qeq-tl-GsO" firstAttribute="trailing" secondItem="l0A-9R-P5t" secondAttribute="trailing" constant="30" id="mFK-Sg-u1W"/>
                             <constraint firstItem="Qeq-tl-GsO" firstAttribute="bottom" secondItem="l0A-9R-P5t" secondAttribute="bottom" constant="15" id="oEL-LW-TaJ"/>
-                            <constraint firstItem="aJf-3Q-5fC" firstAttribute="top" secondItem="T0N-U5-b2F" secondAttribute="top" id="oKM-u1-Bra"/>
+                            <constraint firstItem="aJf-3Q-5fC" firstAttribute="top" secondItem="T0N-U5-b2F" secondAttribute="top" constant="-20" id="oKM-u1-Bra"/>
                             <constraint firstItem="aJf-3Q-5fC" firstAttribute="leading" secondItem="Qeq-tl-GsO" secondAttribute="leading" id="ofn-Cy-C87"/>
                             <constraint firstItem="Qeq-tl-GsO" firstAttribute="trailing" secondItem="wdX-4y-i6a" secondAttribute="trailing" constant="33" id="ufA-zA-4s7"/>
                             <constraint firstItem="Qeq-tl-GsO" firstAttribute="trailing" secondItem="9je-i7-wNR" secondAttribute="trailing" id="xaJ-fu-67f"/>
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="card" destination="wdX-4y-i6a" id="uN0-6X-zyl"/>
+                        <outlet property="emailTextField" destination="ahw-2z-fVU" id="asi-SY-rmA"/>
+                        <outlet property="loginButton" destination="nbH-sv-cf0" id="2Lo-Um-AkO"/>
+                        <outlet property="passwordTextField" destination="0ON-0F-p65" id="vLO-Wy-Xkc"/>
                         <segue destination="hML-oG-Zyb" kind="presentation" modalPresentationStyle="fullScreen" id="evf-6i-SjD"/>
                         <segue destination="NkI-iH-ErZ" kind="presentation" modalPresentationStyle="fullScreen" id="oYJ-SH-qnZ"/>
                     </connections>
@@ -192,7 +204,7 @@
                                     <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="fzs-P7-a2y">
                                         <rect key="frame" x="30" y="136" width="288" height="230"/>
                                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                                        <mutableString key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</mutableString>
+                                        <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
                                         <color key="textColor" systemColor="labelColor"/>
                                         <fontDescription key="fontDescription" type="system" weight="light" pointSize="16"/>
                                         <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
@@ -417,7 +429,7 @@
                                                     <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="5A8-PA-OQq">
                                                         <rect key="frame" x="34" y="382" width="280" height="280"/>
                                                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                                                        <mutableString key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</mutableString>
+                                                        <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
                                                         <color key="textColor" systemColor="labelColor"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                         <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>

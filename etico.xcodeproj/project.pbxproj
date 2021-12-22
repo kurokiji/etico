@@ -7,12 +7,17 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		7134EF0C51D1B72375D92F58 /* Pods_etico.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F4308657594FC7DC6865AEFF /* Pods_etico.framework */; };
 		79C760A8276F87DB005BB737 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79C760A7276F87DB005BB737 /* AppDelegate.swift */; };
 		79C760AA276F87DB005BB737 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79C760A9276F87DB005BB737 /* SceneDelegate.swift */; };
 		79C760AC276F87DB005BB737 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79C760AB276F87DB005BB737 /* ViewController.swift */; };
 		79C760AF276F87DB005BB737 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 79C760AD276F87DB005BB737 /* Main.storyboard */; };
 		79C760B1276F87DC005BB737 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 79C760B0276F87DC005BB737 /* Assets.xcassets */; };
 		79C760B4276F87DC005BB737 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 79C760B2276F87DC005BB737 /* LaunchScreen.storyboard */; };
+		79C760C827732C77005BB737 /* Networking Provider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79C760C727732C77005BB737 /* Networking Provider.swift */; };
+		79C760CA27732F84005BB737 /* Login.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79C760C927732F84005BB737 /* Login.swift */; };
+		79C760CE2773324A005BB737 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79C760CD2773324A005BB737 /* LoginViewController.swift */; };
+		79C760D0277336B1005BB737 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79C760CF277336B1005BB737 /* User.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,6 +29,13 @@
 		79C760B0276F87DC005BB737 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		79C760B3276F87DC005BB737 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		79C760B5276F87DC005BB737 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		79C760C727732C77005BB737 /* Networking Provider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Networking Provider.swift"; sourceTree = "<group>"; };
+		79C760C927732F84005BB737 /* Login.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Login.swift; sourceTree = "<group>"; };
+		79C760CD2773324A005BB737 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
+		79C760CF277336B1005BB737 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
+		9E50F7E835781F29B330705E /* Pods-etico.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-etico.release.xcconfig"; path = "Target Support Files/Pods-etico/Pods-etico.release.xcconfig"; sourceTree = "<group>"; };
+		D86E76F5EB5321AE41DCBAF8 /* Pods-etico.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-etico.debug.xcconfig"; path = "Target Support Files/Pods-etico/Pods-etico.debug.xcconfig"; sourceTree = "<group>"; };
+		F4308657594FC7DC6865AEFF /* Pods_etico.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_etico.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -31,17 +43,37 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7134EF0C51D1B72375D92F58 /* Pods_etico.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		07084F639E76D52D3247EC6E /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				F4308657594FC7DC6865AEFF /* Pods_etico.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		3949805F207939EDAFC55213 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				D86E76F5EB5321AE41DCBAF8 /* Pods-etico.debug.xcconfig */,
+				9E50F7E835781F29B330705E /* Pods-etico.release.xcconfig */,
+			);
+			path = Pods;
+			sourceTree = "<group>";
+		};
 		79C7609B276F87DB005BB737 = {
 			isa = PBXGroup;
 			children = (
 				79C760A6276F87DB005BB737 /* etico */,
 				79C760A5276F87DB005BB737 /* Products */,
+				3949805F207939EDAFC55213 /* Pods */,
+				07084F639E76D52D3247EC6E /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -79,6 +111,7 @@
 		79C760C2277327C2005BB737 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				79C760CF277336B1005BB737 /* User.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -87,6 +120,7 @@
 			isa = PBXGroup;
 			children = (
 				79C760C62773282E005BB737 /* Data */,
+				79C760C727732C77005BB737 /* Networking Provider.swift */,
 			);
 			path = Networking;
 			sourceTree = "<group>";
@@ -95,6 +129,7 @@
 			isa = PBXGroup;
 			children = (
 				79C760AB276F87DB005BB737 /* ViewController.swift */,
+				79C760CD2773324A005BB737 /* LoginViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -111,6 +146,7 @@
 		79C760C62773282E005BB737 /* Data */ = {
 			isa = PBXGroup;
 			children = (
+				79C760C927732F84005BB737 /* Login.swift */,
 			);
 			path = Data;
 			sourceTree = "<group>";
@@ -122,9 +158,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 79C760B8276F87DC005BB737 /* Build configuration list for PBXNativeTarget "etico" */;
 			buildPhases = (
+				DA74B7FEC393BB42259BCA5D /* [CP] Check Pods Manifest.lock */,
 				79C760A0276F87DB005BB737 /* Sources */,
 				79C760A1276F87DB005BB737 /* Frameworks */,
 				79C760A2276F87DB005BB737 /* Resources */,
+				0624D6036B532BE7B0020240 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -181,14 +219,60 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		0624D6036B532BE7B0020240 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-etico/Pods-etico-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-etico/Pods-etico-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-etico/Pods-etico-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		DA74B7FEC393BB42259BCA5D /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-etico-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		79C760A0276F87DB005BB737 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				79C760CE2773324A005BB737 /* LoginViewController.swift in Sources */,
 				79C760AC276F87DB005BB737 /* ViewController.swift in Sources */,
+				79C760CA27732F84005BB737 /* Login.swift in Sources */,
 				79C760A8276F87DB005BB737 /* AppDelegate.swift in Sources */,
 				79C760AA276F87DB005BB737 /* SceneDelegate.swift in Sources */,
+				79C760C827732C77005BB737 /* Networking Provider.swift in Sources */,
+				79C760D0277336B1005BB737 /* User.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -332,6 +416,7 @@
 		};
 		79C760B9276F87DC005BB737 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = D86E76F5EB5321AE41DCBAF8 /* Pods-etico.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -339,7 +424,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 35YV6W556V;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = etico/Info.plist;
+				INFOPLIST_FILE = "etico/Supporting Files/Info.plist";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
@@ -361,6 +446,7 @@
 		};
 		79C760BA276F87DC005BB737 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 9E50F7E835781F29B330705E /* Pods-etico.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -368,7 +454,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 35YV6W556V;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = etico/Info.plist;
+				INFOPLIST_FILE = "etico/Supporting Files/Info.plist";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
