@@ -8,6 +8,11 @@
 
 /* Begin PBXBuildFile section */
 		7134EF0C51D1B72375D92F58 /* Pods_etico.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F4308657594FC7DC6865AEFF /* Pods_etico.framework */; };
+		795C9EFF27772EEA00ABCB41 /* PasswordRecoverViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 795C9EFE27772EEA00ABCB41 /* PasswordRecoverViewController.swift */; };
+		795C9F012777910E00ABCB41 /* CircularImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 795C9F002777910E00ABCB41 /* CircularImageView.swift */; };
+		79BF82B9277538D30064F990 /* QRViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79BF82B8277538D30064F990 /* QRViewController.swift */; };
+		79BF82BB27763E290064F990 /* ValidateResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79BF82BA27763E290064F990 /* ValidateResponse.swift */; };
+		79BF82BF277655510064F990 /* CustomAlertViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79BF82BE277655510064F990 /* CustomAlertViewController.swift */; };
 		79C760A8276F87DB005BB737 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79C760A7276F87DB005BB737 /* AppDelegate.swift */; };
 		79C760AA276F87DB005BB737 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79C760A9276F87DB005BB737 /* SceneDelegate.swift */; };
 		79C760AC276F87DB005BB737 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79C760AB276F87DB005BB737 /* ViewController.swift */; };
@@ -18,9 +23,20 @@
 		79C760CA27732F84005BB737 /* Login.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79C760C927732F84005BB737 /* Login.swift */; };
 		79C760CE2773324A005BB737 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79C760CD2773324A005BB737 /* LoginViewController.swift */; };
 		79C760D0277336B1005BB737 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79C760CF277336B1005BB737 /* User.swift */; };
+		79C760D427737618005BB737 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79C760D327737618005BB737 /* Constants.swift */; };
+		79C760D6277377E9005BB737 /* EmployeesListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79C760D5277377E9005BB737 /* EmployeesListViewController.swift */; };
+		79C760D827737807005BB737 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79C760D727737807005BB737 /* ProfileViewController.swift */; };
+		79C760DA2774C0BC005BB737 /* Response.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79C760D92774C0BC005BB737 /* Response.swift */; };
+		79C760DC277502D2005BB737 /* EmployeeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79C760DB277502D2005BB737 /* EmployeeViewController.swift */; };
+		79C760DE27750C51005BB737 /* EditEmployeeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79C760DD27750C51005BB737 /* EditEmployeeViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		795C9EFE27772EEA00ABCB41 /* PasswordRecoverViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasswordRecoverViewController.swift; sourceTree = "<group>"; };
+		795C9F002777910E00ABCB41 /* CircularImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircularImageView.swift; sourceTree = "<group>"; };
+		79BF82B8277538D30064F990 /* QRViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRViewController.swift; sourceTree = "<group>"; };
+		79BF82BA27763E290064F990 /* ValidateResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ValidateResponse.swift; sourceTree = "<group>"; };
+		79BF82BE277655510064F990 /* CustomAlertViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomAlertViewController.swift; sourceTree = "<group>"; };
 		79C760A4276F87DB005BB737 /* etico.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = etico.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		79C760A7276F87DB005BB737 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		79C760A9276F87DB005BB737 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -33,6 +49,12 @@
 		79C760C927732F84005BB737 /* Login.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Login.swift; sourceTree = "<group>"; };
 		79C760CD2773324A005BB737 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		79C760CF277336B1005BB737 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
+		79C760D327737618005BB737 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		79C760D5277377E9005BB737 /* EmployeesListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmployeesListViewController.swift; sourceTree = "<group>"; };
+		79C760D727737807005BB737 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
+		79C760D92774C0BC005BB737 /* Response.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Response.swift; sourceTree = "<group>"; };
+		79C760DB277502D2005BB737 /* EmployeeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmployeeViewController.swift; sourceTree = "<group>"; };
+		79C760DD27750C51005BB737 /* EditEmployeeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditEmployeeViewController.swift; sourceTree = "<group>"; };
 		9E50F7E835781F29B330705E /* Pods-etico.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-etico.release.xcconfig"; path = "Target Support Files/Pods-etico/Pods-etico.release.xcconfig"; sourceTree = "<group>"; };
 		D86E76F5EB5321AE41DCBAF8 /* Pods-etico.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-etico.debug.xcconfig"; path = "Target Support Files/Pods-etico/Pods-etico.debug.xcconfig"; sourceTree = "<group>"; };
 		F4308657594FC7DC6865AEFF /* Pods_etico.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_etico.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -104,6 +126,8 @@
 				79C760A7276F87DB005BB737 /* AppDelegate.swift */,
 				79C760A9276F87DB005BB737 /* SceneDelegate.swift */,
 				79C760B5276F87DC005BB737 /* Info.plist */,
+				79C760D327737618005BB737 /* Constants.swift */,
+				795C9F002777910E00ABCB41 /* CircularImageView.swift */,
 			);
 			path = "Supporting Files";
 			sourceTree = "<group>";
@@ -130,6 +154,13 @@
 			children = (
 				79C760AB276F87DB005BB737 /* ViewController.swift */,
 				79C760CD2773324A005BB737 /* LoginViewController.swift */,
+				79C760D5277377E9005BB737 /* EmployeesListViewController.swift */,
+				79C760D727737807005BB737 /* ProfileViewController.swift */,
+				79C760DB277502D2005BB737 /* EmployeeViewController.swift */,
+				79C760DD27750C51005BB737 /* EditEmployeeViewController.swift */,
+				79BF82B8277538D30064F990 /* QRViewController.swift */,
+				79BF82BE277655510064F990 /* CustomAlertViewController.swift */,
+				795C9EFE27772EEA00ABCB41 /* PasswordRecoverViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -147,6 +178,8 @@
 			isa = PBXGroup;
 			children = (
 				79C760C927732F84005BB737 /* Login.swift */,
+				79C760D92774C0BC005BB737 /* Response.swift */,
+				79BF82BA27763E290064F990 /* ValidateResponse.swift */,
 			);
 			path = Data;
 			sourceTree = "<group>";
@@ -266,13 +299,24 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				79C760D827737807005BB737 /* ProfileViewController.swift in Sources */,
+				795C9F012777910E00ABCB41 /* CircularImageView.swift in Sources */,
+				795C9EFF27772EEA00ABCB41 /* PasswordRecoverViewController.swift in Sources */,
 				79C760CE2773324A005BB737 /* LoginViewController.swift in Sources */,
 				79C760AC276F87DB005BB737 /* ViewController.swift in Sources */,
+				79BF82B9277538D30064F990 /* QRViewController.swift in Sources */,
+				79BF82BB27763E290064F990 /* ValidateResponse.swift in Sources */,
 				79C760CA27732F84005BB737 /* Login.swift in Sources */,
 				79C760A8276F87DB005BB737 /* AppDelegate.swift in Sources */,
 				79C760AA276F87DB005BB737 /* SceneDelegate.swift in Sources */,
+				79C760DE27750C51005BB737 /* EditEmployeeViewController.swift in Sources */,
 				79C760C827732C77005BB737 /* Networking Provider.swift in Sources */,
+				79C760D6277377E9005BB737 /* EmployeesListViewController.swift in Sources */,
 				79C760D0277336B1005BB737 /* User.swift in Sources */,
+				79C760DA2774C0BC005BB737 /* Response.swift in Sources */,
+				79C760DC277502D2005BB737 /* EmployeeViewController.swift in Sources */,
+				79BF82BF277655510064F990 /* CustomAlertViewController.swift in Sources */,
+				79C760D427737618005BB737 /* Constants.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
