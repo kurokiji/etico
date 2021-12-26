@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import IQKeyboardManagerSwift
 
 class LoginViewController: UIViewController {
 
@@ -23,6 +24,10 @@ class LoginViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        emailTextField.delegate = self
+        passwordTextField.delegate = self
+        emailTextField.tag = 0
+        passwordTextField.tag = 1
         activityIndicator.color = Constants.customYellow
         loadingView.isHidden = true
         loadingCard.layer.cornerRadius = 20
@@ -31,9 +36,10 @@ class LoginViewController: UIViewController {
         card.layer.shadowOpacity = 0.5
         card.layer.shadowOffset = .init(width: 6, height: 6)
         card.layer.shadowRadius = 20
-    }
-    
-    override func viewDidAppear(_ animated: Bool) {
+        IQKeyboardManager.shared.enable = true
+        IQKeyboardManager.shared.keyboardDistanceFromTextField = 20.0
+        IQKeyboardManager.shared.toolbarTintColor = Constants.customBlue
+        
     }
     
     // MARK: - Buttons functions
@@ -41,8 +47,8 @@ class LoginViewController: UIViewController {
         if emailTextField.hasText && passwordTextField.hasText {
             self.disableLogin(isLoading: true)
             // TODO: Sustituir los campos
-            NetworkingProvider.shared.login(email: emailTextField.text!,
-                                            password: passwordTextField.text!)
+            NetworkingProvider.shared.login(email: emailTextField.text ?? "",
+                                            password: passwordTextField.text ?? "")
             { user in
                 self.loggedUser = user
                 self.goToNextScreen(job: user.job)
@@ -56,8 +62,8 @@ class LoginViewController: UIViewController {
                              animated: true)
             }
         } else {
-            self.present(Constants.createAlert(title: "Campos obligatorios",
-                                          message: "Por favor, rellena todos los campos del formulario",
+            self.present(Constants.createAlert(title: "Required fields",
+                                          message: "Please, fill in all the fields of the form",
                                           image: Constants.alertImage,
                                           color: Constants.customYellow),
                          animated: true)
@@ -72,7 +78,7 @@ class LoginViewController: UIViewController {
             myAlert.callBack = { (email: String) in
                 NetworkingProvider.shared.passwordRecover(email: email) {
                     self.present(Constants.createAlert(title: "Success",
-                                                       message: "Email enviado correctamente",
+                                                       message: "Email sent successfully with your new password",
                                                        image: Constants.passwordImage,
                                                        color: Constants.customBlue),
                                  animated: true)
@@ -92,15 +98,15 @@ class LoginViewController: UIViewController {
     // MARK: - Navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "showEmployeesList" {
-            let controller = segue.destination as! EmployeesListViewController
+            let controller = segue.destination as? EmployeesListViewController
             if let loggedUser = loggedUser {
-                controller.loggedUser = loggedUser
+                controller?.loggedUser = loggedUser
             }
         }
         if segue.identifier == "showProfile" {
-            let controller = segue.destination as! ProfileViewController
+            let controller = segue.destination as? ProfileViewController
             if let loggedUser = loggedUser {
-                controller.loggedUser = loggedUser
+                controller?.loggedUser = loggedUser
             }
         }
     }
@@ -125,3 +131,14 @@ class LoginViewController: UIViewController {
     }
     
 }
+
+extension LoginViewController: UITextFieldDelegate {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        if let nextField = self.view.viewWithTag(textField.tag + 1) as? UITextField {
+                    nextField.becomeFirstResponder()
+                } else {
+                    textField.resignFirstResponder()
+                }
+                return false
+            }
+    }

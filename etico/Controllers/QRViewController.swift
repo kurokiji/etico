@@ -9,7 +9,10 @@ import UIKit
 
 class QRViewController: UIViewController {
 
+    // MARK: - Variables
     var email: String?
+    
+    // MARK: - Outlets
     @IBOutlet weak var qrImage: UIImageView!
     @IBOutlet weak var card: UIView!
     
@@ -26,7 +29,7 @@ class QRViewController: UIViewController {
         }
     }
     
-
+    // MARK: - Supporting Functions
     func generateQRCode(from string: String) -> UIImage? {
         let data = string.data(using: String.Encoding.ascii)
 

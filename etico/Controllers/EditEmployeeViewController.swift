@@ -7,13 +7,17 @@
 
 import UIKit
 import Kingfisher
+import IQKeyboardManagerSwift
 
 class EditEmployeeViewController: UIViewController {
-
+    
+    // MARK: - Variables
     var employee: User?
     var loggedUser: User?
     var editedEmployee: User?
+    var deletedEmployee: Int?
     
+    // MARK: - Outlets
     @IBOutlet weak var card: UIView!
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var nameTextfield: UITextField!
@@ -34,15 +38,27 @@ class EditEmployeeViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        biographyTextfield.delegate = self
         card.layer.cornerRadius = 20
         card.layer.shadowColor = UIColor.black.cgColor
         card.layer.shadowOpacity = 0.5
         card.layer.shadowOffset = .init(width: 6, height: 6)
         card.layer.shadowRadius = 20
+        IQKeyboardManager.shared.enable = true
+        IQKeyboardManager.shared.keyboardDistanceFromTextField = 20.0
+        IQKeyboardManager.shared.toolbarTintColor = Constants.customBlue
         // TODO: Añadir limtes a la edición
         //https://www.hackingwithswift.com/example-code/uikit/how-to-limit-the-number-of-characters-in-a-uitextfield-or-uitextview
-        
+ 
         if let employee = employee {
+            if let loggedUser = loggedUser {
+                if employee.id == loggedUser.id {
+                    deleteButton.isHidden = true
+                }
+            }
+            addPhotoButton.setTitle("Add Photo", for: .normal)
+            deleteButton.isHidden = true
+            nameTextfield.becomeFirstResponder()
             nameTextfield.text = employee.name
             emailTextfield.text = employee.email
             salaryTextfield.text = String(employee.salary)
@@ -60,59 +76,37 @@ class EditEmployeeViewController: UIViewController {
             profileImage.kf.setImage(with: URL(string: employee.profileImgUrl),
                                      placeholder: Constants.profileImage,
                                      options: [.transition(.fade(0.25))])
-        }
-        
-        if employee!.id == loggedUser!.id {
-            deleteButton.isHidden = true
-        }
-        
-        if employee != nil {
-            addPhotoButton.setTitle("Change Photo", for: .normal)
         } else {
-            addPhotoButton.setTitle("Add Photo", for: .normal)
-            deleteButton.isHidden = true
-            nameTextfield.becomeFirstResponder()
+            addPhotoButton.setTitle("Change Photo", for: .normal)
         }
+       
     }
     
+    // MARK: - Buttons functions
     @IBAction func deleteEmployee(_ sender: Any) {
         let deleteAlert = UIAlertController(title: "Are you sure?",
                                             message: "This action can't be undone",
                                             preferredStyle: .actionSheet)
-        deleteAlert.addAction(.init(title: "Delete",
-                                    style: .destructive,
-                                    handler: { _ in
-            NetworkingProvider.shared.delete(employeeID: self.employee!.id,
-                                             apiToken: self.loggedUser!.api_token!) {
-
-                if let first = self.presentingViewController,
-                        let second = first.presentingViewController{
-                          first.view.isHidden = true
-                          second.dismiss(animated: true)
-                     }
-            } failure: { error in
-                self.showAlert(title: "Error",
-                               message: error,
-                               image: Constants.errorImage,
-                               color: Constants.customPink)
+        deleteAlert.addAction(.init(title: "Delete", style: .destructive, handler: { _ in
+            if let employee = self.employee, let apiToken = self.loggedUser?.api_token{
+                NetworkingProvider.shared.delete(employeeID: employee.id,
+                                                 apiToken: apiToken) {
+                    self.editedEmployee = nil
+                    self.deletedEmployee = employee.id
+                    self.performSegue(withIdentifier: "backToList", sender: self)
+                } failure: { error in
+                    let errorAlert = Constants.createAlert(title: "Error",
+                                                           message: error,
+                                                           image: Constants.errorImage,
+                                                           color: Constants.customPink)
+                    self.present(errorAlert, animated: true, completion: nil)
+                }
             }
         }))
-        
         deleteAlert.addAction(.init(title: "Cancel", style: .cancel, handler: { _ in
             deleteAlert.dismiss(animated: true)
         }))
-        
         present(deleteAlert, animated: true)
-
-    }
-    
-    
-    @IBAction func addPhoto(_ sender: Any) {
-        let imagePicker = UIImagePickerController()
-        imagePicker.sourceType = .photoLibrary
-        imagePicker.delegate = self
-        imagePicker.allowsEditing = true
-        present(imagePicker, animated: true)
     }
     
     @IBAction func saveEmployee(_ sender: Any) {
@@ -131,13 +125,13 @@ class EditEmployeeViewController: UIViewController {
         }
         
         if let employee = employee {
-//            let salary = Float(salaryTextfield.text)
-//            let editedEmployee = User.init(id: employee.id,
-//                                           name: nameTextfield.text ?? "No name",
-//                                           email: employee.email,
-//                                           job: job,
-//                                           salary: Float(salaryTextfield.text!)!,
-//                                           biography: biographyTextfield.text ?? "No biography")
+            //            let salary = Float(salaryTextfield.text)
+            //            let editedEmployee = User.init(id: employee.id,
+            //                                           name: nameTextfield.text ?? "No name",
+            //                                           email: employee.email,
+            //                                           job: job,
+            //                                           salary: Float(salaryTextfield.text!)!,
+            //                                           biography: biographyTextfield.text ?? "No biography")
             editedEmployee = User.init(id: employee.id,
                                        name: "puton",
                                        email: "puta@putonnnn.com",
@@ -148,17 +142,17 @@ class EditEmployeeViewController: UIViewController {
             
             // TODO: No crear nuevo usuario, utilizar el mismo y asignar variables
             
-            if let loggedUser = loggedUser {
-                NetworkingProvider.shared.modify(employee: editedEmployee!, apiToken: "") {
+            if let api_token = loggedUser?.api_token, let editedEmployee = editedEmployee {
+                NetworkingProvider.shared.modify(employee: editedEmployee, apiToken: api_token) {
                     self.performSegue(withIdentifier: "backToList", sender: self)
                 } failure: { error in
-                    self.showAlert(title: "Error",
-                              message: error,
-                                   image: Constants.errorImage,
-                              color: Constants.customPink)
+                    let errorAlert = Constants.createAlert(title: "Error",
+                                                           message: error,
+                                                           image: Constants.errorImage,
+                                                           color: Constants.customPink)
+                    self.present(errorAlert, animated: true, completion: nil)
                     self.changeButtonsStatus(passButtonEnabled: nil, saveButtonEnabled: true)
                 }
-
             }
             
         } else {
@@ -169,62 +163,66 @@ class EditEmployeeViewController: UIViewController {
                                        salary: 00000,
                                        biography: "asdfghjklertyuixcvb srdgsryh sht zdh ery aer gbdfz bzdfh adfh f zdhfzghfgh zdfhdf hzdfh zdfh zd fhfdkhzdhfhz",
                                        profileImageUrl: "asfdasfdasd")
-            
-            NetworkingProvider.shared.add(apiToken: "", employee: editedEmployee!) {
-                // TODO: unwind segue a la pantalla anterior con los nuevos datos y a la lista
-                self.performSegue(withIdentifier: "backToList", sender: self)
-            } failure: { error in
-                self.showAlert(title: "Error",
-                               message: error,
-                               image: Constants.errorImage,
-                               color: Constants.customPink)
-                self.changeButtonsStatus(passButtonEnabled: nil, saveButtonEnabled: true)
+            if let api_token = loggedUser?.api_token, let editedEmployee = editedEmployee {
+                NetworkingProvider.shared.add(apiToken: api_token, employee: editedEmployee) {
+                    // TODO: unwind segue a la pantalla anterior con los nuevos datos y a la lista
+                    self.performSegue(withIdentifier: "backToList", sender: self)
+                } failure: { error in
+                    let errorAlert = Constants.createAlert(title: "Error",
+                                                           message: error,
+                                                           image: Constants.errorImage,
+                                                           color: Constants.customPink)
+                    self.present(errorAlert, animated: true, completion: nil)
+                    self.changeButtonsStatus(passButtonEnabled: nil, saveButtonEnabled: true)
+                }
             }
-
         }
     }
-    
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "backToList"{
-            let controller = segue.destination as? EmployeesListViewController
-            controller?.edditedEmployee = editedEmployee
-        }
-    }
-    
     
     @IBAction func changePassword(_ sender: Any) {
         self.changeButtonsStatus(passButtonEnabled: false, saveButtonEnabled: nil)
         if let employee = employee {
             NetworkingProvider.shared.passwordRecover(email: employee.email) {
                 self.changePasswordButton.isEnabled = false
-                self.showAlert(title: "New password sent",
-                               message: "The new password has been sent to the employee email",
-                               image: Constants.passwordImage,
-                               color: Constants.customBlue)
+                let passAlert = Constants.createAlert(title: "New password sent",
+                                                      message: "The new password has been sent to the employee email",
+                                                      image: Constants.passwordImage,
+                                                      color: Constants.customBlue)
+                self.present(passAlert, animated: true, completion: nil)
                 self.changeButtonsStatus(passButtonEnabled: true, saveButtonEnabled: nil)
             } failure: { error in
-                self.showAlert(title: "Error",
-                               message: error,
-                               image: Constants.errorImage,
-                               color: Constants.customPink)
+                let errorAlert = Constants.createAlert(title: "Error",
+                                                       message: error,
+                                                       image: Constants.errorImage,
+                                                       color: Constants.customPink)
+                self.present(errorAlert, animated: true, completion: nil)
                 self.changeButtonsStatus(passButtonEnabled: true, saveButtonEnabled: nil)
             }
         }
     }
     
-    func showAlert(title: String, message:String, image: UIImage?, color: UIColor) {
-        let storyBoard = UIStoryboard(name: "Main", bundle: nil)
-        if let myAlert = storyBoard.instantiateViewController(withIdentifier: "alert") as? CustomAlertViewController {
-            myAlert.modalPresentationStyle = UIModalPresentationStyle.overCurrentContext
-            myAlert.modalTransitionStyle = UIModalTransitionStyle.crossDissolve
-            myAlert.customTitle = title
-            myAlert.message = message
-            myAlert.image = image
-            myAlert.color = color
-            self.present(myAlert, animated: true, completion: nil)
+    @IBAction func addPhoto(_ sender: Any) {
+        let imagePicker = UIImagePickerController()
+        imagePicker.sourceType = .photoLibrary
+        imagePicker.delegate = self
+        imagePicker.allowsEditing = true
+        present(imagePicker, animated: true)
+    }
+    
+    // MARK: - Navigation
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "backToList"{
+            let controller = segue.destination as? EmployeesListViewController
+            if let editedEmployee = editedEmployee {
+                controller?.edditedEmployee = editedEmployee
+            }
+            if let deletedEmployee = deletedEmployee {
+                controller?.deletedEmployee = deletedEmployee
+            }
         }
     }
     
+    // MARK: - Supporting functions
     func changeButtonsStatus(passButtonEnabled: Bool?, saveButtonEnabled: Bool?){
         if let passButtonEnabled = passButtonEnabled {
             changePasswordButton.isEnabled = passButtonEnabled
@@ -233,19 +231,30 @@ class EditEmployeeViewController: UIViewController {
             saveButton.isEnabled = saveButtonEnabled
         }
     }
-    
 }
 
+// MARK: - ImagePicker extension
 extension EditEmployeeViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-        let image = info[.editedImage]
+        let file = info[.editedImage]
         let url = info[.imageURL]
-        profileImage.image = image as? UIImage
-        //TODO: Guardar imagen en el servidor
+        profileImage.image = file as? UIImage
+        
+        if let imageUrl = url{
+            NetworkingProvider.shared.uploadImage(imageUrl: imageUrl as? URL, apiToken: loggedUser?.api_token ?? "") { fileUrl in
+                print("uploaded")
+            } failure: { error in
+                print(error)
+            }
+        }
         picker.dismiss(animated: true, completion: nil)
     }
     
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
         picker.dismiss(animated: true, completion: nil)
     }
+}
+
+extension EditEmployeeViewController: UITextViewDelegate {
+    
 }

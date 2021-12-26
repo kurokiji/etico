@@ -43,7 +43,7 @@ class EmployeeViewController: UIViewController {
             case Constants.executive:
                 jobLabel.text = Constants.executiveText
             default:
-                jobLabel.text = "Empleado"
+                jobLabel.text = Constants.employeeText
             }
             salaryLabel.text = String(format: "%.2f", employee.salary) + "€"
             biographyLabel.text = employee.biography
@@ -53,13 +53,15 @@ class EmployeeViewController: UIViewController {
     
     // MARK: - Navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "editEmployee" {
-            let controller = segue.destination as! EditEmployeeViewController
-            controller.employee = employee
-            controller.loggedUser = loggedUser
-        } else if segue.identifier == "showQR" {
-            let controller = segue.destination as! QRViewController
-            controller.email = employee!.email
+        if let loggedUser = loggedUser, let employee = employee {
+            if segue.identifier == "editEmployee" {
+                let controller = segue.destination as? EditEmployeeViewController
+                controller?.employee = employee
+                controller?.loggedUser = loggedUser
+            } else if segue.identifier == "showQR" {
+                let controller = segue.destination as? QRViewController
+                controller?.email = employee.email
+            }
         }
     }
     

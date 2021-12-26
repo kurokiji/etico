@@ -9,9 +9,11 @@ import UIKit
 import Kingfisher
 
 class ProfileViewController: UIViewController {
-
+    
+    // MARK: - Variables
     var loggedUser: User?
     
+    // MARK: - Outlets
     @IBOutlet weak var card: UIView!
     @IBOutlet weak var profileImage: UIImageView!
     @IBOutlet weak var nameLabel: UILabel!
@@ -37,7 +39,7 @@ class ProfileViewController: UIViewController {
             case Constants.executive:
                 jobLabel.text = Constants.executiveText
             default:
-                jobLabel.text = "Empleado"
+                jobLabel.text = Constants.employeeText
             }
             salaryLabel.text = String(format: "%.2f", loggedUser.salary) + "€"
             biographyLabel.text = loggedUser.biography
@@ -46,19 +48,20 @@ class ProfileViewController: UIViewController {
                                      placeholder: Constants.profileImage,
                                      options: [.transition(.fade(0.25))])
         }
-
+        
     }
-    
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "showQR" {
-            if let loggedUser = loggedUser {
-                let controller = segue.destination as! QRViewController
-                controller.email = loggedUser.email
-            }
-        }
-    }
+    // MARK: - Buttons functions
     @IBAction func showQr(_ sender: Any) {
         performSegue(withIdentifier: "showQR", sender: nil)
     }
-
+    
+    // MARK: - Navigation
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if let loggedUser = loggedUser {
+            if segue.identifier == "showQR" {
+                let controller = segue.destination as? QRViewController
+                controller?.email = loggedUser.email
+            }
+        }
+    }
 }

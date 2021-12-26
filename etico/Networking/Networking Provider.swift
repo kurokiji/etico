@@ -7,6 +7,7 @@
 
 import Foundation
 import Alamofire
+import UIKit
 
 final class NetworkingProvider {
     static let shared = NetworkingProvider()
@@ -151,6 +152,21 @@ final class NetworkingProvider {
                 }
             } else {
                 failure(response.value!.msg)
+            }
+        }
+    }
+    
+    func uploadImage(imageUrl: URL?, apiToken: String, success: @escaping ( _ fileUrl: String) -> (), failure: @escaping ( _ error: String)-> ()) {
+        let url = "\(kBaseUrl)uploadimage"
+        let headers: HTTPHeaders = [
+            "Content-type": "multipart/form-data"
+        ]
+        if let imageUrl = imageUrl {
+            AF.upload(multipartFormData: { multipartFormData in
+                multipartFormData.append(imageUrl, withName: "image",fileName: "profile.png" , mimeType: "image/png")
+                
+            }, to: url, method: .post, headers: headers).response { response in
+
             }
         }
     }

@@ -8,10 +8,12 @@
 import UIKit
 
 class PasswordRecoverViewController: UIViewController {
-
+    // MARK: - Variables
+    var callBack: ((_ text: String)-> Void)?
+    
+    // MARK: - Outlets
     @IBOutlet weak var emailTextField: UITextField!
     @IBOutlet weak var card: UIView!
-    var callBack: ((_ text: String)-> Void)?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -22,7 +24,7 @@ class PasswordRecoverViewController: UIViewController {
         card.layer.shadowRadius = 20
     }
     
-
+    // MARK: - Buttons functions
     @IBAction func sendPassword(_ sender: Any) {
         callBack?(emailTextField.text ?? "")
         self.dismiss(animated: true, completion: nil)

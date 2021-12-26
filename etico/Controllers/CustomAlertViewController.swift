@@ -10,11 +10,13 @@ import UIKit
 
 class CustomAlertViewController: UIViewController {
     
+    // MARK: - Variables
     var customTitle: String?
     var message: String?
     var image: UIImage?
     var color: UIColor?
     
+    // MARK: - Outlets
     @IBOutlet weak var alertViewCard: UIView!
     @IBOutlet weak var imageView: UIImageView!
     @IBOutlet weak var titleLabel: UILabel!
@@ -31,20 +33,20 @@ class CustomAlertViewController: UIViewController {
         alertViewCard.layer.shadowRadius = 20
         changeValues()
         messageTextViewHC.constant = self.messageTextView.contentSize.height
-//        messageTextViewHC.constant = .init(33)
-
     }
     
+    // MARK: - Buttons functions
     @IBAction func dismiss(_ sender: Any) {
         self.dismiss(animated: true, completion: nil)
     }
     
+    // MARK: - Supporting Functions
     func changeValues(){
         if let title = customTitle {
             titleLabel.text = title
         }
         if let message = message {
-            var messageOneLine = message.components(separatedBy: ", ")
+            let messageOneLine = message.components(separatedBy: ", ")
             var messageString = ""
             for line in messageOneLine {
                 messageString += "\(line)\n"
@@ -54,7 +56,6 @@ class CustomAlertViewController: UIViewController {
         if let image = image {
             imageView.image = image
         }
-        
         if let color = color {
             imageView.tintColor = color
             titleLabel.textColor = color

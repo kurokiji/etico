@@ -12,32 +12,32 @@ import Alamofire
 
 class EmployeesListViewController: UIViewController {
 
+    // MARK: - Variables
     var loggedUser: User?
     var edditedEmployee: User?
+    var deletedEmployee: Int?
     var employeesList: [User] = []
     var orderedEmployeesList: [[User]] = []
     var filterSelected = Filters.name
     let refreshControl = UIRefreshControl()
-        
+    enum Filters {
+        case name
+        case salary
+        case job
+    }
     
+    // MARK: - Outlets
     @IBOutlet weak var employeesTable: UITableView!
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     @IBOutlet weak var showIDButton: UIButton!
     @IBOutlet weak var filterButton: UIButton!
     @IBOutlet weak var addButton: UIButton!
     
-    enum Filters {
-    case name
-    case salary
-    case job
-    }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         employeesTable.dataSource = self
         employeesTable.delegate = self
-        let yellow = UIColor(r: 237, g: 194, b: 80)
-        activityIndicator.color = yellow
+        activityIndicator.color = Constants.customYellow
         showIDButton.isEnabled = false
         filterButton.isEnabled = false
         addButton.isEnabled = false
@@ -54,9 +54,101 @@ class EmployeesListViewController: UIViewController {
         retrieveData()
     }
     
-    func retrieveData() {
+    // MARK: - Buttons functions
+    @IBAction func viewLoggedProfile(_ sender: Any) {
         if let loggedUser = loggedUser {
-            NetworkingProvider.shared.getAll(apiToken: loggedUser.api_token!) { employees in
+            if loggedUser.job == Constants.humanresources {
+                performSegue(withIdentifier: "showHRProfile", sender: nil)
+            } else if loggedUser.job == Constants.executive{
+                performSegue(withIdentifier: "showEXProfile", sender: nil)
+            }
+        }
+    }
+    
+    @IBAction func filterButton(_ sender: Any) {
+        let filtersAlert = UIAlertController(title: nil,
+                                             message: nil,
+                                             preferredStyle: .actionSheet)
+        
+        filtersAlert.addAction(.init(title: "Name", style: .default, handler: { _ in
+            self.orderedEmployeesList = self.sortList(by: Filters.name,
+                                                      employeeList: self.employeesList)
+            self.filterSelected = Filters.name
+            self.employeesTable.reloadData()
+        }))
+        
+        filtersAlert.addAction(.init(title: "Salary", style: .default, handler: { _ in
+            self.orderedEmployeesList = self.sortList(by: Filters.salary,
+                                                      employeeList: self.employeesList)
+            self.filterSelected = Filters.salary
+            self.employeesTable.reloadData()
+        }))
+        
+        filtersAlert.addAction(.init(title: "Job", style: .default, handler: { _ in
+            self.orderedEmployeesList = self.sortList(by: Filters.job,
+                                                      employeeList: self.employeesList)
+            self.filterSelected = Filters.job
+            self.employeesTable.reloadData()
+        }))
+        
+        filtersAlert.addAction(.init(title: "Cancel", style: .cancel, handler: { _ in
+            filtersAlert.dismiss(animated: true, completion: nil)
+        }))
+        
+        present(filtersAlert, animated: true)
+    }
+    
+    
+    // MARK: - Navigation
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if let loggedUser = loggedUser {
+            if segue.identifier == "showEXProfile" {
+                let controller = segue.destination as? EmployeeViewController
+                controller?.employee = loggedUser
+                controller?.loggedUser = loggedUser
+            } else if segue.identifier == "addUser"{
+                let controller = segue.destination as? EditEmployeeViewController
+                controller?.loggedUser = loggedUser
+            } else if segue.identifier == "showHRProfile"{
+                let controller = segue.destination as? ProfileViewController
+                controller?.loggedUser = loggedUser
+            }
+        }
+    }
+    
+    @IBAction func unwind(_ seg: UIStoryboardSegue) {
+        if let deletedEmployeeID = deletedEmployee {
+            for position in 0..<employeesList.count {
+                if deletedEmployeeID == employeesList[position].id {
+                    employeesList.remove(at: position)
+                    break
+                }
+            }
+        } else if let employee = edditedEmployee{
+            for position in 0..<employeesList.count {
+                if employee.id == employeesList[position].id {
+                    employeesList[position] = employee
+                    break
+                }
+            }
+        }
+        switch filterSelected {
+        case .name:
+            orderedEmployeesList = sortList(by: Filters.name, employeeList: employeesList)
+        case .salary:
+            orderedEmployeesList = sortList(by: Filters.salary, employeeList: employeesList)
+        case .job:
+            orderedEmployeesList = sortList(by: Filters.job, employeeList: employeesList)
+        }
+        edditedEmployee = nil
+        deletedEmployee = nil
+        employeesTable.reloadData()
+    }
+    
+    // MARK: - Supporting functions
+    func retrieveData() {
+        if let loggedUser = loggedUser, let apiToken = loggedUser.api_token {
+            NetworkingProvider.shared.getAll(apiToken: apiToken) { employees in
                 self.employeesList = employees
                 self.orderedEmployeesList = self.sortList(by: self.filterSelected,
                                                           employeeList: self.employeesList)
@@ -70,107 +162,11 @@ class EmployeesListViewController: UIViewController {
                 self.filterButton.isEnabled = true
                 self.addButton.isEnabled = true
             } failure: { error in
-                self.present(Constants.createAlert(title: "Ha habido un error",
-                                                   message: "Tira de la lista hacia abajo para intentarlo de nuevo",
+                self.present(Constants.createAlert(title: "An error has occured",
+                                                   message: "Pull the list down to try again",
                                                    image: Constants.alertImage,
                                                    color: Constants.customPink),
                              animated: true)
-            }
-        }
-    }
-    
-    @IBAction func viewLoggedProfile(_ sender: Any) {
-        if let loggedUser = loggedUser {
-            if loggedUser.job == Constants.humanresources {
-                performSegue(withIdentifier: "showHRProfile", sender: nil)
-            } else if loggedUser.job == Constants.executive{
-                performSegue(withIdentifier: "showEXProfile", sender: nil)
-            }
-        }
-    }
-    
-    //TODO: doble comprobacion de loggeduser? aqui
-    
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "showEXProfile" {
-            let controller = segue.destination as! EmployeeViewController
-            controller.employee = loggedUser
-            controller.loggedUser = loggedUser
-        } else if segue.identifier == "addUser"{
-            let controller = segue.destination as! EditEmployeeViewController
-            controller.loggedUser = loggedUser
-        } else if segue.identifier == "showHRProfile"{
-            let controller = segue.destination as! ProfileViewController
-            controller.loggedUser = loggedUser
-        }
-    }
-
-    @IBAction func filterButton(_ sender: Any) {
-        let filtersAlert = UIAlertController(title: nil,
-                                             message: nil,
-                                             preferredStyle: .actionSheet)
-        
-        filtersAlert.addAction(.init(title: "Name",
-                                     style: .default,
-                                     handler: { _ in
-            self.orderedEmployeesList = self.sortList(by: Filters.name,
-                                                      employeeList: self.employeesList)
-            self.filterSelected = Filters.name
-            self.employeesTable.reloadData()
-        }))
-        
-        filtersAlert.addAction(.init(title: "Salary",
-                                     style: .default,
-                                     handler: { _ in
-            self.orderedEmployeesList = self.sortList(by: Filters.salary,
-                                                      employeeList: self.employeesList)
-            self.filterSelected = Filters.salary
-            self.employeesTable.reloadData()
-        }))
-        
-        filtersAlert.addAction(.init(title: "Job",
-                                     style: .default,
-                                     handler: { _ in
-            self.orderedEmployeesList = self.sortList(by: Filters.job,
-                                                      employeeList: self.employeesList)
-            self.filterSelected = Filters.job
-            self.employeesTable.reloadData()
-        }))
-        
-        filtersAlert.addAction(.init(title: "Cancel",
-                                     style: .cancel,
-                                     handler: { _ in
-            filtersAlert.dismiss(animated: true, completion: nil)
-        }))
-        
-        present(filtersAlert, animated: true)
-    }
-    
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        employeesTable.deselectRow(at: indexPath, animated: true)
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        let controller = storyboard.instantiateViewController(withIdentifier: "EmployeeViewController") as! EmployeeViewController
-        controller.employee = orderedEmployeesList[indexPath.section][indexPath.row]
-        controller.loggedUser = loggedUser
-        self.present(controller, animated: true)
-    }
-    
-    // TODO: Este FOR es un poco penoso, alguna manera mejor de encontrar el id?
-    @IBAction func unwind(_ seg: UIStoryboardSegue) {
-        if let employee = edditedEmployee {
-            for position in 0..<employeesList.count {
-                if employee.id == employeesList[position].id {
-                    employeesList[position] = employee
-                }
-                switch filterSelected {
-                case .name:
-                    orderedEmployeesList = sortList(by: Filters.name, employeeList: employeesList)
-                case .salary:
-                    orderedEmployeesList = sortList(by: Filters.salary, employeeList: employeesList)
-                case .job:
-                    orderedEmployeesList = sortList(by: Filters.job, employeeList: employeesList)
-                }
-            employeesTable.reloadData()
             }
         }
     }
@@ -223,9 +219,9 @@ class EmployeesListViewController: UIViewController {
         }
         return sortedEmployees
     }
-    
 }
 
+// MARK: - Table extension
 extension EmployeesListViewController: UITableViewDataSource, UITableViewDelegate {
     func numberOfSections(in tableView: UITableView) -> Int {
         return orderedEmployeesList.count
@@ -258,8 +254,10 @@ extension EmployeesListViewController: UITableViewDataSource, UITableViewDelegat
                 sectionName = "20.000€ to 25.000€"
             case 4:
                 sectionName = "25.000€ to 30.000€"
-            default:
+            case 5:
                 sectionName = "More than 30.000€"
+            default:
+                sectionName = "No Salary"
             }
         case Filters.job:
             switch section {
@@ -272,6 +270,17 @@ extension EmployeesListViewController: UITableViewDataSource, UITableViewDelegat
             }
         }
         return sectionName
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        employeesTable.deselectRow(at: indexPath, animated: true)
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let controller = storyboard.instantiateViewController(withIdentifier: "EmployeeViewController") as? EmployeeViewController
+        controller?.employee = orderedEmployeesList[indexPath.section][indexPath.row]
+        controller?.loggedUser = loggedUser
+        if let controller = controller {
+            self.present(controller, animated: true)
+        }
     }
 }
 
