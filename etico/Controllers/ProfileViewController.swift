@@ -41,7 +41,18 @@ class ProfileViewController: UIViewController {
             default:
                 jobLabel.text = Constants.employeeText
             }
-            salaryLabel.text = String(format: "%.2f", loggedUser.salary) + "€"
+            let formatter = NumberFormatter()
+            formatter.numberStyle = .decimal
+            formatter.groupingSeparator = "."
+            formatter.decimalSeparator = ","
+            formatter.groupingSize = 3
+            let salaryNS = NSNumber(value: loggedUser.salary)
+            let salaryText = formatter.string(from: salaryNS)
+            if let salaryText = salaryText {
+                salaryLabel.text = "\(salaryText)€"
+            } else {
+                salaryLabel.text = "\(loggedUser.salary)€"
+            }
             biographyLabel.text = loggedUser.biography
             
             profileImage.kf.setImage(with: URL(string: loggedUser.profileImgUrl),

@@ -8,8 +8,6 @@
 import UIKit
 import Alamofire
 
-//TODO: COMO ACTUALIZAR CADA VEZ QUE VUELVAS A ESTA VENTANA!?!?!?!?!
-
 class EmployeesListViewController: UIViewController {
 
     // MARK: - Variables

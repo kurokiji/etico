@@ -54,10 +54,12 @@ class EditEmployeeViewController: UIViewController {
             if let loggedUser = loggedUser {
                 if employee.id == loggedUser.id {
                     deleteButton.isHidden = true
+                    
+                } else {
+                    deleteButton.isHidden = false
                 }
             }
-            addPhotoButton.setTitle("Add Photo", for: .normal)
-            deleteButton.isHidden = true
+            addPhotoButton.setTitle("Edit Photo", for: .normal)
             nameTextfield.becomeFirstResponder()
             nameTextfield.text = employee.name
             emailTextfield.text = employee.email
@@ -77,7 +79,8 @@ class EditEmployeeViewController: UIViewController {
                                      placeholder: Constants.profileImage,
                                      options: [.transition(.fade(0.25))])
         } else {
-            addPhotoButton.setTitle("Change Photo", for: .normal)
+            addPhotoButton.setTitle("Add Photo", for: .normal)
+            deleteButton.isHidden = true
         }
        
     }
@@ -123,6 +126,12 @@ class EditEmployeeViewController: UIViewController {
         default:
             job = Constants.employee
         }
+        
+        //TODO: Extraer cada elemento de su field
+        
+        //TODO: Hacer una función de validación que reciva una función para mostrar el alert y devuelva los datos relativos a los errores
+        
+        //TODO: Comprobar función, si pasa hacer la petición
         
         if let employee = employee {
             //            let salary = Float(salaryTextfield.text)
