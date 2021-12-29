@@ -23,6 +23,16 @@ class ProfileViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        // MARK: - Dark mode configuration
+        switch traitCollection.userInterfaceStyle {
+               case .light, .unspecified:
+            print("light")
+               case .dark:
+            view.backgroundColor = UIColor.darkGray
+            card.backgroundColor = Constants.customGrey
+        }
+        
+        // MARK: - View configuration
         card.layer.cornerRadius = 20
         card.layer.shadowColor = UIColor.black.cgColor
         card.layer.shadowOpacity = 0.5
@@ -42,10 +52,10 @@ class ProfileViewController: UIViewController {
                 jobLabel.text = Constants.employeeText
             }
             let formatter = NumberFormatter()
-            formatter.numberStyle = .decimal
-            formatter.groupingSeparator = "."
-            formatter.decimalSeparator = ","
-            formatter.groupingSize = 3
+            formatter.numberStyle = .currency
+            formatter.currencyDecimalSeparator = ","
+            formatter.currencyGroupingSeparator = "."
+            formatter.locale = Locale(identifier: "es_ES")
             let salaryNS = NSNumber(value: loggedUser.salary)
             let salaryText = formatter.string(from: salaryNS)
             if let salaryText = salaryText {

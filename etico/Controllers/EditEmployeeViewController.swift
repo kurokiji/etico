@@ -33,12 +33,41 @@ class EditEmployeeViewController: UIViewController {
     @IBOutlet weak var profileImage: UIImageView!
     @IBOutlet weak var deleteButton: UIButton!
     @IBOutlet weak var jobSelector: UISegmentedControl!
+    @IBOutlet weak var uploadProgressBar: UIProgressView!
+    @IBOutlet weak var contentView: UIView!
+    @IBOutlet weak var scrollView: UIScrollView!
+    
     
     // TODO: Modificar botones dependiendo de donde venga, o hacerlo enl anterior
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        biographyTextfield.delegate = self
+        // MARK: - Dark mode configuration
+        switch traitCollection.userInterfaceStyle {
+               case .light, .unspecified:
+            print("light")
+               case .dark:
+            contentView.backgroundColor = UIColor.darkGray
+            view.backgroundColor = UIColor.darkGray
+            scrollView.backgroundColor = UIColor.darkGray
+            card.backgroundColor = Constants.customGrey
+            emailTextfield.layer.borderColor = UIColor.lightGray.cgColor
+            emailTextfield.backgroundColor = Constants.customBlack
+            emailTextfield.layer.borderWidth = 0.5
+            emailTextfield.layer.cornerRadius = 10
+            nameTextfield.layer.borderColor = UIColor.lightGray.cgColor
+            nameTextfield.backgroundColor = Constants.customBlack
+            nameTextfield.layer.borderWidth = 0.5
+            nameTextfield.layer.cornerRadius = 10
+            salaryTextfield.layer.borderColor = UIColor.lightGray.cgColor
+            salaryTextfield.backgroundColor = Constants.customBlack
+            salaryTextfield.layer.borderWidth = 0.5
+            salaryTextfield.layer.cornerRadius = 10
+            
+        }
+        
+        // MARK: - View configuration
+        scrollView.bounces = false
         card.layer.cornerRadius = 20
         card.layer.shadowColor = UIColor.black.cgColor
         card.layer.shadowOpacity = 0.5
@@ -47,14 +76,18 @@ class EditEmployeeViewController: UIViewController {
         IQKeyboardManager.shared.enable = true
         IQKeyboardManager.shared.keyboardDistanceFromTextField = 20.0
         IQKeyboardManager.shared.toolbarTintColor = Constants.customBlue
+        biographyTextfield.layer.borderColor = UIColor.lightGray.cgColor
+        biographyTextfield.layer.borderWidth = 0.2
+        biographyTextfield.layer.cornerRadius = 10
+        changeInterface(passButtonEnabled: nil, saveButtonEnabled: nil, photoButtonEnabled: nil, deleteButtonHidden: nil, progressHidden: true)
  
         if let employee = employee {
             if let loggedUser = loggedUser {
                 if employee.id == loggedUser.id {
-                    deleteButton.isHidden = true
+                    changeInterface(passButtonEnabled: nil, saveButtonEnabled: nil, photoButtonEnabled: nil, deleteButtonHidden: true, progressHidden: nil)
                     
                 } else {
-                    deleteButton.isHidden = false
+                    changeInterface(passButtonEnabled: nil, saveButtonEnabled: nil, photoButtonEnabled: nil, deleteButtonHidden: false, progressHidden: nil)
                 }
             }
             addPhotoButton.setTitle("Edit Photo", for: .normal)
@@ -79,6 +112,7 @@ class EditEmployeeViewController: UIViewController {
         } else {
             addPhotoButton.setTitle("Add Photo", for: .normal)
             deleteButton.isHidden = true
+            changePasswordButton.isHidden = true
         }
        
     }
@@ -99,7 +133,8 @@ class EditEmployeeViewController: UIViewController {
                     let errorAlert = Constants.createAlert(title: "Error",
                                                            message: error,
                                                            image: Constants.errorImage,
-                                                           color: Constants.customPink)
+                                                           color: Constants.customPink,
+                                                           callBack: nil)
                     self.present(errorAlert, animated: true, completion: nil)
                 }
             }
@@ -112,7 +147,7 @@ class EditEmployeeViewController: UIViewController {
     
     @IBAction func saveEmployee(_ sender: Any) {
         if let apiToken = loggedUser?.api_token{
-            changeButtonsStatus(passButtonEnabled: nil, saveButtonEnabled: false)
+            self.changeInterface(passButtonEnabled: nil, saveButtonEnabled: false, photoButtonEnabled: nil, deleteButtonHidden: nil, progressHidden: nil)
             var name: String?
             var email: String?
             var salary: Float?
@@ -170,10 +205,10 @@ class EditEmployeeViewController: UIViewController {
                 let errorAlert = Constants.createAlert(title: "Check fields",
                                                        message: alertMessage,
                                                        image: Constants.errorImage,
-                                                       color: Constants.customPink)
+                                                       color: Constants.customPink,
+                                                       callBack: nil)
                 present(errorAlert, animated: true, completion: nil)
-                changeButtonsStatus(passButtonEnabled: nil, saveButtonEnabled: true)
-            } else {
+                self.changeInterface(passButtonEnabled: nil, saveButtonEnabled: true, photoButtonEnabled: nil, deleteButtonHidden: nil, progressHidden: nil)            } else {
                 if let correctName = name, let correctEmail = email, let correctBiography = biography, let correctSalary = salary {
                     if let employee = employee, let id = employee.id{
                         employee.name = correctName
@@ -191,9 +226,10 @@ class EditEmployeeViewController: UIViewController {
                             let errorAlert = Constants.createAlert(title: "Error",
                                                                    message: error,
                                                                    image: Constants.errorImage,
-                                                                   color: Constants.customPink)
+                                                                   color: Constants.customPink,
+                                                                   callBack: nil)
                             self.present(errorAlert, animated: true, completion: nil)
-                            self.changeButtonsStatus(passButtonEnabled: nil, saveButtonEnabled: true)
+                            self.changeInterface(passButtonEnabled: nil, saveButtonEnabled: true, photoButtonEnabled: nil, deleteButtonHidden: nil, progressHidden: nil)
                         }
                     } else {
                         employee = User(id: nil, name: correctName, email: correctEmail, job: job, salary: correctSalary, biography: correctBiography, profileImageUrl: profileImageURL ?? "https://picsum.photos/500/500")
@@ -204,9 +240,10 @@ class EditEmployeeViewController: UIViewController {
                                 let errorAlert = Constants.createAlert(title: "Error",
                                                                        message: error,
                                                                        image: Constants.errorImage,
-                                                                       color: Constants.customPink)
+                                                                       color: Constants.customPink,
+                                                                       callBack: nil)
                                 self.present(errorAlert, animated: true, completion: nil)
-                                self.changeButtonsStatus(passButtonEnabled: nil, saveButtonEnabled: true)
+                                self.changeInterface(passButtonEnabled: nil, saveButtonEnabled: true, photoButtonEnabled: nil, deleteButtonHidden: nil, progressHidden: nil)
                             }
                         }
                     }
@@ -216,23 +253,24 @@ class EditEmployeeViewController: UIViewController {
     }
     
     @IBAction func changePassword(_ sender: Any) {
-        self.changeButtonsStatus(passButtonEnabled: false, saveButtonEnabled: nil)
+        self.changeInterface(passButtonEnabled: false, saveButtonEnabled: nil, photoButtonEnabled: nil, deleteButtonHidden: nil, progressHidden: nil)
         if let employee = employee {
             NetworkingProvider.shared.passwordRecover(email: employee.email) {
-                self.changePasswordButton.isEnabled = false
                 let passAlert = Constants.createAlert(title: "New password sent",
                                                       message: "The new password has been sent to the employee email",
                                                       image: Constants.passwordImage,
-                                                      color: Constants.customBlue)
+                                                      color: Constants.customBlue,
+                                                      callBack: nil)
                 self.present(passAlert, animated: true, completion: nil)
-                self.changeButtonsStatus(passButtonEnabled: true, saveButtonEnabled: nil)
+                self.changeInterface(passButtonEnabled: true, saveButtonEnabled: nil, photoButtonEnabled: nil, deleteButtonHidden: nil, progressHidden: nil)
             } failure: { error in
                 let errorAlert = Constants.createAlert(title: "Error",
                                                        message: error,
                                                        image: Constants.errorImage,
-                                                       color: Constants.customPink)
+                                                       color: Constants.customPink,
+                                                       callBack: nil)
                 self.present(errorAlert, animated: true, completion: nil)
-                self.changeButtonsStatus(passButtonEnabled: true, saveButtonEnabled: nil)
+                self.changeInterface(passButtonEnabled: true, saveButtonEnabled: nil, photoButtonEnabled: nil, deleteButtonHidden: nil, progressHidden: nil)
             }
         }
     }
@@ -259,12 +297,21 @@ class EditEmployeeViewController: UIViewController {
     }
     
     // MARK: - Supporting functions
-    func changeButtonsStatus(passButtonEnabled: Bool?, saveButtonEnabled: Bool?){
+    func changeInterface(passButtonEnabled: Bool?, saveButtonEnabled: Bool?, photoButtonEnabled: Bool?, deleteButtonHidden: Bool?, progressHidden: Bool?){
         if let passButtonEnabled = passButtonEnabled {
             changePasswordButton.isEnabled = passButtonEnabled
         }
         if let saveButtonEnabled = saveButtonEnabled {
             saveButton.isEnabled = saveButtonEnabled
+        }
+        if let photoButtonEnabled = photoButtonEnabled {
+            addPhotoButton.isEnabled = photoButtonEnabled
+        }
+        if let deleteButtonHidden = deleteButtonHidden {
+            deleteButton.isHidden = deleteButtonHidden
+        }
+        if let progressHidden = progressHidden {
+            uploadProgressBar.isHidden = progressHidden
         }
     }
 }
@@ -275,15 +322,26 @@ extension EditEmployeeViewController: UIImagePickerControllerDelegate, UINavigat
         let file = info[.editedImage] as? UIImage
         let url = info[.imageURL] as? URL
         
+        //QUITAR IMAGEN Y MOSTRAR CARGANDO
+        
         if let imageUrl = url, let apiToken = loggedUser?.api_token{
-            NetworkingProvider.shared.uploadImage(imageUrl: imageUrl, apiToken: apiToken) { fileUrl in
+            self.changeInterface(passButtonEnabled: nil, saveButtonEnabled: nil, photoButtonEnabled: false, deleteButtonHidden: nil, progressHidden: false)
+            NetworkingProvider.shared.uploadImage(imageUrl: imageUrl, apiToken: apiToken) { progressQuantity in
+                self.uploadProgressBar.progress = Float(progressQuantity)
+            } success: { fileUrl in
                 self.profileImage.image = file
                 self.profileImageURL = fileUrl
-                print(fileUrl)
+                self.changeInterface(passButtonEnabled: nil, saveButtonEnabled: nil, photoButtonEnabled: true, deleteButtonHidden: nil, progressHidden: true)
             } failure: { error in
-                let imageAlert = Constants.createAlert(title: "Error", message: "There was a problem uploading the image, please try again", image: Constants.errorImage, color: Constants.customPink)
+                let imageAlert = Constants.createAlert(title: "Error",
+                                                       message: "There was a problem uploading the image, please try again",
+                                                       image: Constants.errorImage,
+                                                       color: Constants.customPink,
+                                                       callBack: nil)
+                self.changeInterface(passButtonEnabled: nil, saveButtonEnabled: nil, photoButtonEnabled: true, deleteButtonHidden: nil, progressHidden: true)
                 self.present(imageAlert, animated: true, completion: nil)
             }
+
 
         }
         picker.dismiss(animated: true, completion: nil)
@@ -292,8 +350,4 @@ extension EditEmployeeViewController: UIImagePickerControllerDelegate, UINavigat
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
         picker.dismiss(animated: true, completion: nil)
     }
-}
-
-extension EditEmployeeViewController: UITextViewDelegate {
-    
 }

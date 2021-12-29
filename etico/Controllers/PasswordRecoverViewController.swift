@@ -17,6 +17,15 @@ class PasswordRecoverViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        // MARK: - Dark mode configuration
+        switch traitCollection.userInterfaceStyle {
+               case .light, .unspecified:
+            print("light")
+               case .dark:
+            card.backgroundColor = Constants.customGrey
+        }
+        
+        // MARK: - View configuration
         card.layer.cornerRadius = 20
         card.layer.shadowColor = UIColor.black.cgColor
         card.layer.shadowOpacity = 0.5

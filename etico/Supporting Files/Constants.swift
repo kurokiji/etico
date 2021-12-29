@@ -9,6 +9,8 @@ import Foundation
 import UIKit
 
 final class Constants {
+    static let proyectUrl = "http://kurokiji.com"
+    
     static let employee = "employee"
     static let humanresources = "humanresources"
     static let executive = "executive"
@@ -20,6 +22,9 @@ final class Constants {
     static let customYellow = UIColor(r: 237, g: 194, b: 80)
     static let customBlue = UIColor(r: 91, g: 180, b: 218)
     static let customPink = UIColor(r: 216, g: 132, b: 168)
+    static let customGrey = UIColor.init(r: 26, g: 26, b: 27)
+    static let customBlack = UIColor.init(r: 27, g: 27, b: 29)
+
 
     static let errorImage = UIImage(systemName: "xmark.circle.fill")
     static let checkImage = UIImage(systemName: "checkmark.icloud.fill")
@@ -35,11 +40,12 @@ final class Constants {
         case executive
     }
     
-   static func createAlert(title: String, message:String, image: UIImage?, color: UIColor) -> CustomAlertViewController {
+    static func createAlert(title: String, message:String, image: UIImage?, color: UIColor, callBack: (()-> Void)?) -> CustomAlertViewController {
         let storyBoard = UIStoryboard(name: "Main", bundle: nil)
         let myAlert = storyBoard.instantiateViewController(withIdentifier: "alert") as! CustomAlertViewController
             myAlert.modalPresentationStyle = UIModalPresentationStyle.overCurrentContext
             myAlert.modalTransitionStyle = UIModalTransitionStyle.crossDissolve
+            myAlert.callBack = callBack
             myAlert.customTitle = title
             myAlert.message = message
             myAlert.image = image

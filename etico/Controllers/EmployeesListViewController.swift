@@ -33,6 +33,8 @@ class EmployeesListViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        // MARK: - View configuration and delegates
         employeesTable.dataSource = self
         employeesTable.delegate = self
         activityIndicator.color = Constants.customYellow
@@ -166,9 +168,12 @@ class EmployeesListViewController: UIViewController {
                 self.addButton.isEnabled = true
             } failure: { error in
                 self.present(Constants.createAlert(title: "An error has occured",
-                                                   message: "Pull the list down to try again",
+                                                   message: "Touch Dismiss to try again",
                                                    image: Constants.alertImage,
-                                                   color: Constants.customPink),
+                                                   color: Constants.customPink,
+                                                   callBack: {
+                    self.retrieveData()
+                }),
                              animated: true)
             }
         }
@@ -184,7 +189,7 @@ class EmployeesListViewController: UIViewController {
             sortedEmployees = []
             var prevInitial: Character? = nil
             for employee in alphabeticalEmployees {
-                let initial = employee.name.first
+                let initial = employee.name.applyingTransform(.stripDiacritics, reverse: false)!.first
                 if initial != prevInitial {
                     sortedEmployees.append([])
                     prevInitial = initial
@@ -204,7 +209,7 @@ class EmployeesListViewController: UIViewController {
                 }
             }
         case Filters.salary:
-            sortedEmployees = [[],[],[],[],[]]
+            sortedEmployees = [[],[],[],[],[],[],[],[],[]]
             for employee in alphabeticalEmployees {
                 switch employee.salary {
                 case 0..<15000:
@@ -215,8 +220,14 @@ class EmployeesListViewController: UIViewController {
                     sortedEmployees[2].append(employee)
                 case 25000..<30000:
                     sortedEmployees[3].append(employee)
-                default:
+                case 30000..<35000:
                     sortedEmployees[4].append(employee)
+                case 35000..<40000:
+                    sortedEmployees[5].append(employee)
+                case 40000..<45000:
+                    sortedEmployees[6].append(employee)
+                default:
+                    sortedEmployees[7].append(employee)
                 }
             }
         }
@@ -248,17 +259,21 @@ extension EmployeesListViewController: UITableViewDataSource, UITableViewDelegat
         case Filters.salary:
             switch section {
             case 0:
-                sectionName = "Up to 10.000€"
+                sectionName = "Up to 15.000€"
             case 1:
-                sectionName = "10.000€ to 15.000€"
-            case 2:
                 sectionName = "15.000€ to 20.000€"
-            case 3:
+            case 2:
                 sectionName = "20.000€ to 25.000€"
-            case 4:
+            case 3:
                 sectionName = "25.000€ to 30.000€"
+            case 4:
+                sectionName = "30.000€ to 35.000€"
             case 5:
-                sectionName = "More than 30.000€"
+                sectionName = "35.000€ to 40.000€"
+            case 6:
+                sectionName = "40.000 to 45.000€"
+            case 7:
+                sectionName = "More than 45.000€"
             default:
                 sectionName = "No Salary"
             }

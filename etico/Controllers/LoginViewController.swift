@@ -24,6 +24,23 @@ class LoginViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        // MARK: - Dark mode configuration
+        switch traitCollection.userInterfaceStyle {
+               case .light, .unspecified:
+            print("light")
+               case .dark:
+            view.backgroundColor = UIColor.darkGray
+            card.backgroundColor = Constants.customGrey
+            emailTextField.layer.borderColor = UIColor.lightGray.cgColor
+            emailTextField.layer.borderWidth = 0.5
+            emailTextField.layer.cornerRadius = 10
+            passwordTextField.layer.borderColor = UIColor.lightGray.cgColor
+            passwordTextField.layer.borderWidth = 0.5
+            passwordTextField.layer.cornerRadius = 10
+            loadingCard.backgroundColor = Constants.customGrey
+        }
+        
+        // MARK: - View configuration
         emailTextField.delegate = self
         passwordTextField.delegate = self
         emailTextField.tag = 0
@@ -51,7 +68,11 @@ class LoginViewController: UIViewController {
                     self.goToNextScreen(job: loggedUser.job)
                 } failure: { error in
                     self.loadingView.isHidden = true
-                    let loginAgainAlert = Constants.createAlert(title: "Login again", message: "Your credentials have expired, please login again", image: Constants.passwordImage, color: Constants.customPink)
+                    let loginAgainAlert = Constants.createAlert(title: "Login again",
+                                                                message: "Your credentials have expired, please login again",
+                                                                image: Constants.passwordImage,
+                                                                color: Constants.customPink,
+                                                                callBack: nil)
                     self.present(loginAgainAlert, animated: true, completion: nil)
                 }
             }
@@ -67,9 +88,10 @@ class LoginViewController: UIViewController {
             login()
         } else {
             self.present(Constants.createAlert(title: "Required fields",
-                                          message: "Please, fill in all the fields of the form",
-                                          image: Constants.alertImage,
-                                          color: Constants.customYellow),
+                                               message: "Please, fill in all the fields of the form",
+                                               image: Constants.alertImage,
+                                               color: Constants.customYellow,
+                                               callBack: nil),
                          animated: true)
         }
     }
@@ -84,13 +106,15 @@ class LoginViewController: UIViewController {
                     self.present(Constants.createAlert(title: "Success",
                                                        message: "Email sent successfully with your new password",
                                                        image: Constants.passwordImage,
-                                                       color: Constants.customBlue),
+                                                       color: Constants.customBlue,
+                                                       callBack: nil),
                                  animated: true)
                 } failure: { error in
                     self.present(Constants.createAlert(title: "Error",
                                                        message: error,
                                                        image: Constants.errorImage,
-                                                       color: Constants.customPink),
+                                                       color: Constants.customPink,
+                                                       callBack: nil),
                                  animated: true)
 
                 }
@@ -150,7 +174,8 @@ class LoginViewController: UIViewController {
             self.present(Constants.createAlert(title: "Error",
                                                message: error,
                                                image: Constants.errorImage,
-                                               color: Constants.customPink),
+                                               color: Constants.customPink,
+                                               callBack: nil),
                          animated: true)
         }
     }

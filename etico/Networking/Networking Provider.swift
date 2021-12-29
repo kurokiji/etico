@@ -12,16 +12,16 @@ import UIKit
 final class NetworkingProvider {
     static let shared = NetworkingProvider()
     
-    private let kBaseUrl = "http://localhost:8888/employee-management/public/api/"
+    private let kBaseUrl = "\(Constants.proyectUrl)/api"
     let statusOk = 200...299
     
     func login(email: String, password: String, success: @escaping (_ user: User) -> (), failure: @escaping (_ error: String) ->()) {
-        let url = "\(kBaseUrl)login"
+        let url = "\(kBaseUrl)/login"
         let parameters: Parameters = [
             "email" : email,
             "password" : password
         ]
-        AF.request(url, method: .put, parameters: parameters).validate(statusCode: statusOk).responseDecodable (of: Login.self) { response in
+        AF.request(url, method: .put, parameters: parameters, encoding: JSONEncoding.default).validate(statusCode: statusOk).responseDecodable (of: Login.self) { response in
             print(response)
             if let status = response.value?.status {
                 if status == 1 {
@@ -38,7 +38,7 @@ final class NetworkingProvider {
     }
     
     func getAll(apiToken: String, success: @escaping (_ employees: [User]) ->(), failure: @escaping (_ error: String) -> ()) {
-        let url = "\(kBaseUrl)employee/getall"
+        let url = "\(kBaseUrl)/employee/getall"
         
         let headers: HTTPHeaders = [
             "token" : apiToken
@@ -49,18 +49,22 @@ final class NetworkingProvider {
                 if status == 1 {
                     if let employees = response.value?.data {
                         success(employees)
+                        for employee in employees {
+                            print(employee.salary)
+                        }
                     }
                 } else {
                     failure(response.value!.msg)
                 }
             } else {
+                print(response)
                 failure("There is a problem connecting to the server")
             }
         }
     }
     
     func add(apiToken: String, employee: User, success: @escaping () ->(), failure: @escaping (_ error: String) -> ()) {
-        let url = "\(kBaseUrl)employee/add"
+        let url = "\(kBaseUrl)/employee/add"
         
         let headers: HTTPHeaders = [
             "token" : apiToken
@@ -89,7 +93,7 @@ final class NetworkingProvider {
     }
     
     func passwordRecover(email: String, success: @escaping () ->(), failure: @escaping (_ error: String) -> ()) {
-        let url = "\(kBaseUrl)passwordrecover"
+        let url = "\(kBaseUrl)/passwordrecover"
         
         let parameters: Parameters = [
             "email" : email
@@ -109,7 +113,7 @@ final class NetworkingProvider {
     }
     
     func modify(employee: User, apiToken: String, employeeID: Int, success: @escaping () -> (), failure: @escaping (_ error: String) ->()) {
-        let url = "\(kBaseUrl)employee/modify/\(employeeID)"
+        let url = "\(kBaseUrl)/employee/modify/\(employeeID)"
         
         let headers: HTTPHeaders = [
             "token" : apiToken
@@ -141,7 +145,7 @@ final class NetworkingProvider {
     }
     
     func delete(employeeID: Int, apiToken: String, success: @escaping () -> (), failure: @escaping (_ error: String) -> ()) {
-        let url = "\(kBaseUrl)employee/delete/\(employeeID)"
+        let url = "\(kBaseUrl)/employee/delete/\(employeeID)"
         let headers: HTTPHeaders = [
             "token" : apiToken
         ]
@@ -159,8 +163,8 @@ final class NetworkingProvider {
         }
     }
     
-    func uploadImage(imageUrl: URL?, apiToken: String, success: @escaping ( _ fileUrl: String) -> (), failure: @escaping ( _ error: String)-> ()) {
-        let url = "\(kBaseUrl)employee/uploadimage"
+    func uploadImage(imageUrl: URL?, apiToken: String,progress: @escaping ( _ progressQuantity: Double) -> (), success: @escaping ( _ fileUrl: String) -> (), failure: @escaping ( _ error: String)-> ()) {
+        let url = "\(kBaseUrl)/employee/uploadimage"
         let headers: HTTPHeaders = [
             "token" : apiToken
         ]
@@ -169,11 +173,13 @@ final class NetworkingProvider {
             AF.upload(multipartFormData: { multipartFormData in
                 multipartFormData.append(imageUrl, withName: "photo", fileName: "profile.png" , mimeType: "image/png")
                 
-            }, to: url, method: .post, headers: headers).validate(statusCode: statusOk).responseDecodable (of: Response.self) { response in
+            }, to: url, method: .post, headers: headers).validate(statusCode: statusOk).uploadProgress(closure: { progressQuantity in
+                progress(progressQuantity.fractionCompleted)
+            }).responseDecodable (of: Response.self) { response in
                 if let status = response.value?.status {
                     if status == 1 {
                         if let url = response.value?.msg{
-                            success(url)
+                            success(Constants.proyectUrl + url)
                         }
                     } else {
                         failure(response.value!.msg)
@@ -186,7 +192,7 @@ final class NetworkingProvider {
     }
     
     func checkToken(apiToken: String, success: @escaping () ->(), failure: @escaping (_ error: String) -> ()) {
-        let url = "\(kBaseUrl)checktoken"
+        let url = "\(kBaseUrl)/checktoken"
         
         let parameters: Parameters = [
             "token" : apiToken

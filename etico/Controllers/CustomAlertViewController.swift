@@ -15,6 +15,7 @@ class CustomAlertViewController: UIViewController {
     var message: String?
     var image: UIImage?
     var color: UIColor?
+    var callBack: (()-> Void)?
     
     // MARK: - Outlets
     @IBOutlet weak var alertViewCard: UIView!
@@ -26,6 +27,15 @@ class CustomAlertViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        // MARK: - Dark mode configuration
+        switch traitCollection.userInterfaceStyle {
+               case .light, .unspecified:
+            print("light")
+               case .dark:
+            alertViewCard.backgroundColor = Constants.customGrey
+        }
+        
+        // MARK: - View configuration
         alertViewCard.layer.cornerRadius = 20
         alertViewCard.layer.shadowColor = UIColor.black.cgColor
         alertViewCard.layer.shadowOpacity = 0.5
@@ -37,6 +47,9 @@ class CustomAlertViewController: UIViewController {
     
     // MARK: - Buttons functions
     @IBAction func dismiss(_ sender: Any) {
+        if let callBack = callBack {
+            callBack()
+        }
         self.dismiss(animated: true, completion: nil)
     }
     
