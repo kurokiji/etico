@@ -123,11 +123,16 @@ class EmployeesListViewController: UIViewController {
                 }
             }
         } else if let employee = edditedEmployee{
+            var newEmployee = true
             for position in 0..<employeesList.count {
                 if employee.id == employeesList[position].id {
                     employeesList[position] = employee
+                    newEmployee = false
                     break
                 }
+            }
+            if newEmployee {
+                employeesList.append(employee)
             }
         }
         switch filterSelected {

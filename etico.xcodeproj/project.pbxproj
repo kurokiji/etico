@@ -11,11 +11,9 @@
 		795C9EFF27772EEA00ABCB41 /* PasswordRecoverViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 795C9EFE27772EEA00ABCB41 /* PasswordRecoverViewController.swift */; };
 		795C9F012777910E00ABCB41 /* CircularImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 795C9F002777910E00ABCB41 /* CircularImageView.swift */; };
 		79BF82B9277538D30064F990 /* QRViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79BF82B8277538D30064F990 /* QRViewController.swift */; };
-		79BF82BB27763E290064F990 /* ValidateResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79BF82BA27763E290064F990 /* ValidateResponse.swift */; };
 		79BF82BF277655510064F990 /* CustomAlertViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79BF82BE277655510064F990 /* CustomAlertViewController.swift */; };
 		79C760A8276F87DB005BB737 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79C760A7276F87DB005BB737 /* AppDelegate.swift */; };
 		79C760AA276F87DB005BB737 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79C760A9276F87DB005BB737 /* SceneDelegate.swift */; };
-		79C760AC276F87DB005BB737 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79C760AB276F87DB005BB737 /* ViewController.swift */; };
 		79C760AF276F87DB005BB737 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 79C760AD276F87DB005BB737 /* Main.storyboard */; };
 		79C760B1276F87DC005BB737 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 79C760B0276F87DC005BB737 /* Assets.xcassets */; };
 		79C760B4276F87DC005BB737 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 79C760B2276F87DC005BB737 /* LaunchScreen.storyboard */; };
@@ -35,12 +33,10 @@
 		795C9EFE27772EEA00ABCB41 /* PasswordRecoverViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasswordRecoverViewController.swift; sourceTree = "<group>"; };
 		795C9F002777910E00ABCB41 /* CircularImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircularImageView.swift; sourceTree = "<group>"; };
 		79BF82B8277538D30064F990 /* QRViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRViewController.swift; sourceTree = "<group>"; };
-		79BF82BA27763E290064F990 /* ValidateResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ValidateResponse.swift; sourceTree = "<group>"; };
 		79BF82BE277655510064F990 /* CustomAlertViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomAlertViewController.swift; sourceTree = "<group>"; };
 		79C760A4276F87DB005BB737 /* etico.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = etico.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		79C760A7276F87DB005BB737 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		79C760A9276F87DB005BB737 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		79C760AB276F87DB005BB737 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		79C760AE276F87DB005BB737 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		79C760B0276F87DC005BB737 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		79C760B3276F87DC005BB737 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -152,7 +148,6 @@
 		79C760C4277327D4005BB737 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				79C760AB276F87DB005BB737 /* ViewController.swift */,
 				79C760CD2773324A005BB737 /* LoginViewController.swift */,
 				79C760D5277377E9005BB737 /* EmployeesListViewController.swift */,
 				79C760D727737807005BB737 /* ProfileViewController.swift */,
@@ -179,7 +174,6 @@
 			children = (
 				79C760C927732F84005BB737 /* Login.swift */,
 				79C760D92774C0BC005BB737 /* Response.swift */,
-				79BF82BA27763E290064F990 /* ValidateResponse.swift */,
 			);
 			path = Data;
 			sourceTree = "<group>";
@@ -303,9 +297,7 @@
 				795C9F012777910E00ABCB41 /* CircularImageView.swift in Sources */,
 				795C9EFF27772EEA00ABCB41 /* PasswordRecoverViewController.swift in Sources */,
 				79C760CE2773324A005BB737 /* LoginViewController.swift in Sources */,
-				79C760AC276F87DB005BB737 /* ViewController.swift in Sources */,
 				79BF82B9277538D30064F990 /* QRViewController.swift in Sources */,
-				79BF82BB27763E290064F990 /* ValidateResponse.swift in Sources */,
 				79C760CA27732F84005BB737 /* Login.swift in Sources */,
 				79C760A8276F87DB005BB737 /* AppDelegate.swift in Sources */,
 				79C760AA276F87DB005BB737 /* SceneDelegate.swift in Sources */,

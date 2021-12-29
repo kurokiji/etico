@@ -32,7 +32,7 @@ final class NetworkingProvider {
                     failure(response.value!.msg)
                 }
             } else {
-                failure("Hay un problema de conexión con el servidor")
+                failure("There is a problem connecting to the server")
             }
         }
     }
@@ -41,7 +41,7 @@ final class NetworkingProvider {
         let url = "\(kBaseUrl)employee/getall"
         
         let headers: HTTPHeaders = [
-            "Token" : apiToken
+            "token" : apiToken
         ]
         
         AF.request(url, method: .get, headers: headers).validate(statusCode: statusOk).responseDecodable (of: Response.self) { response in
@@ -54,7 +54,7 @@ final class NetworkingProvider {
                     failure(response.value!.msg)
                 }
             } else {
-                failure(response.value!.msg)
+                failure("There is a problem connecting to the server")
             }
         }
     }
@@ -63,7 +63,7 @@ final class NetworkingProvider {
         let url = "\(kBaseUrl)employee/add"
         
         let headers: HTTPHeaders = [
-            "Token" : "456"
+            "token" : apiToken
         ]
         
         let parameters: Parameters = [
@@ -71,18 +71,19 @@ final class NetworkingProvider {
             "email" : employee.email,
             "job" : employee.job,
             "salary" : employee.salary,
-            "biography" : employee.biography
+            "biography" : employee.biography,
+            "profileImgUrl": employee.profileImgUrl
         ]
         
-        AF.request(url, method: .put, parameters: parameters, headers: headers).validate(statusCode: statusOk).responseDecodable (of: Response.self) { response in
+        AF.request(url, method: .put, parameters: parameters, encoding: JSONEncoding.default, headers: headers).validate(statusCode: statusOk).responseDecodable (of:Response.self) { response in
             if let status = response.value?.status {
                 if status == 1 {
-                    
+                    success()
                 } else {
                     failure(response.value!.msg)
                 }
             } else {
-                failure(response.value!.msg)
+                failure("There is a problem connecting to the server")
             }
         }
     }
@@ -95,7 +96,6 @@ final class NetworkingProvider {
         ]
         
         AF.request(url, method: .put, parameters: parameters).validate(statusCode: statusOk).responseDecodable (of: Response.self) { response in
-            print(response)
             if let status = response.value?.status {
                 if status == 1 {
                     success()
@@ -103,16 +103,16 @@ final class NetworkingProvider {
                     failure(response.value!.msg)
                 }
             } else {
-                failure(response.value!.msg)
+                failure("There is a problem connecting to the server")
             }
         }
     }
     
-    func modify(employee: User, apiToken: String, success: @escaping () -> (), failure: @escaping (_ error: String) ->()) {
-        let url = "\(kBaseUrl)employee/modify/\(employee.id)"
+    func modify(employee: User, apiToken: String, employeeID: Int, success: @escaping () -> (), failure: @escaping (_ error: String) ->()) {
+        let url = "\(kBaseUrl)employee/modify/\(employeeID)"
         
         let headers: HTTPHeaders = [
-            "Token" : "678"
+            "token" : apiToken
         ]
         
         let parameters: [String : Any] = [
@@ -120,10 +120,13 @@ final class NetworkingProvider {
             "email" : employee.email,
             "job" : employee.job,
             "salary" : employee.salary,
-            "biography" : employee.biography
+            "biography" : employee.biography,
+            "profileImgUrl" : employee.profileImgUrl
         ]
         
-        AF.request(url, method: .put, parameters: parameters, encoding: JSONEncoding.default, headers: headers).validate(statusCode: statusOk).responseDecodable (of:ValidateResponse.self) { response in
+        // POR QUE TENGO QUE USAR EL ENCODING PARA ESTE
+        
+        AF.request(url, method: .put, parameters: parameters, encoding: JSONEncoding.default, headers: headers).validate(statusCode: statusOk).responseDecodable (of: Response.self) { response in
             if let status = response.value?.status {
                 if status == 1 {
                     success()
@@ -131,7 +134,7 @@ final class NetworkingProvider {
                     failure(response.value!.msg)
                 }
             } else {
-                failure(response.value!.msg)
+                failure("There is a problem connecting to the server")
             }
         }
         
@@ -140,10 +143,10 @@ final class NetworkingProvider {
     func delete(employeeID: Int, apiToken: String, success: @escaping () -> (), failure: @escaping (_ error: String) -> ()) {
         let url = "\(kBaseUrl)employee/delete/\(employeeID)"
         let headers: HTTPHeaders = [
-            "Token" : "678"
+            "token" : apiToken
         ]
         
-        AF.request(url, method: .put, headers: headers).validate(statusCode: statusOk).responseDecodable (of:ValidateResponse.self) { response in
+        AF.request(url, method: .put, headers: headers).validate(statusCode: statusOk).responseDecodable (of:Response.self) { response in
             if let status = response.value?.status {
                 if status == 1 {
                     success()
@@ -151,22 +154,53 @@ final class NetworkingProvider {
                     failure(response.value!.msg)
                 }
             } else {
-                failure(response.value!.msg)
+                failure("There is a problem connecting to the server")
             }
         }
     }
     
     func uploadImage(imageUrl: URL?, apiToken: String, success: @escaping ( _ fileUrl: String) -> (), failure: @escaping ( _ error: String)-> ()) {
-        let url = "\(kBaseUrl)uploadimage"
+        let url = "\(kBaseUrl)employee/uploadimage"
         let headers: HTTPHeaders = [
-            "Content-type": "multipart/form-data"
+            "token" : apiToken
         ]
+        
         if let imageUrl = imageUrl {
             AF.upload(multipartFormData: { multipartFormData in
-                multipartFormData.append(imageUrl, withName: "image",fileName: "profile.png" , mimeType: "image/png")
+                multipartFormData.append(imageUrl, withName: "photo", fileName: "profile.png" , mimeType: "image/png")
                 
-            }, to: url, method: .post, headers: headers).response { response in
-
+            }, to: url, method: .post, headers: headers).validate(statusCode: statusOk).responseDecodable (of: Response.self) { response in
+                if let status = response.value?.status {
+                    if status == 1 {
+                        if let url = response.value?.msg{
+                            success(url)
+                        }
+                    } else {
+                        failure(response.value!.msg)
+                    }
+                } else {
+                    failure("There is a problem connecting to the server")
+                }
+            }
+        }
+    }
+    
+    func checkToken(apiToken: String, success: @escaping () ->(), failure: @escaping (_ error: String) -> ()) {
+        let url = "\(kBaseUrl)checktoken"
+        
+        let parameters: Parameters = [
+            "token" : apiToken
+        ]
+        
+        AF.request(url, method: .put, parameters: parameters).validate(statusCode: statusOk).responseDecodable (of: Response.self) { response in
+            if let status = response.value?.status {
+                if status == 1 {
+                    success()
+                } else {
+                    failure(response.value!.msg)
+                }
+            } else {
+                failure("There is a problem connecting to the server")
             }
         }
     }

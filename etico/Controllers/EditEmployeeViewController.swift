@@ -14,8 +14,8 @@ class EditEmployeeViewController: UIViewController {
     // MARK: - Variables
     var employee: User?
     var loggedUser: User?
-    var editedEmployee: User?
     var deletedEmployee: Int?
+    var profileImageURL: String?
     
     // MARK: - Outlets
     @IBOutlet weak var card: UIView!
@@ -47,8 +47,6 @@ class EditEmployeeViewController: UIViewController {
         IQKeyboardManager.shared.enable = true
         IQKeyboardManager.shared.keyboardDistanceFromTextField = 20.0
         IQKeyboardManager.shared.toolbarTintColor = Constants.customBlue
-        // TODO: Añadir limtes a la edición
-        //https://www.hackingwithswift.com/example-code/uikit/how-to-limit-the-number-of-characters-in-a-uitextfield-or-uitextview
  
         if let employee = employee {
             if let loggedUser = loggedUser {
@@ -91,11 +89,11 @@ class EditEmployeeViewController: UIViewController {
                                             message: "This action can't be undone",
                                             preferredStyle: .actionSheet)
         deleteAlert.addAction(.init(title: "Delete", style: .destructive, handler: { _ in
-            if let employee = self.employee, let apiToken = self.loggedUser?.api_token{
-                NetworkingProvider.shared.delete(employeeID: employee.id,
+            if let employee = self.employee, let apiToken = self.loggedUser?.api_token, let id = employee.id{
+                NetworkingProvider.shared.delete(employeeID: id,
                                                  apiToken: apiToken) {
-                    self.editedEmployee = nil
-                    self.deletedEmployee = employee.id
+                    self.employee = nil
+                    self.deletedEmployee = id
                     self.performSegue(withIdentifier: "backToList", sender: self)
                 } failure: { error in
                     let errorAlert = Constants.createAlert(title: "Error",
@@ -113,76 +111,105 @@ class EditEmployeeViewController: UIViewController {
     }
     
     @IBAction func saveEmployee(_ sender: Any) {
-        changeButtonsStatus(passButtonEnabled: nil, saveButtonEnabled: false)
-        
-        var job: String
-        switch jobSelector.selectedSegmentIndex {
-        case 0:
-            job = Constants.employee
-        case 1:
-            job = Constants.humanresources
-        case 2:
-            job = Constants.executive
-        default:
-            job = Constants.employee
-        }
-        
-        //TODO: Extraer cada elemento de su field
-        
-        //TODO: Hacer una función de validación que reciva una función para mostrar el alert y devuelva los datos relativos a los errores
-        
-        //TODO: Comprobar función, si pasa hacer la petición
-        
-        if let employee = employee {
-            //            let salary = Float(salaryTextfield.text)
-            //            let editedEmployee = User.init(id: employee.id,
-            //                                           name: nameTextfield.text ?? "No name",
-            //                                           email: employee.email,
-            //                                           job: job,
-            //                                           salary: Float(salaryTextfield.text!)!,
-            //                                           biography: biographyTextfield.text ?? "No biography")
-            editedEmployee = User.init(id: employee.id,
-                                       name: "puton",
-                                       email: "puta@putonnnn.com",
-                                       job: job,
-                                       salary: 00000,
-                                       biography: "asdfghjklertyuixcvb srdgsryh sht zdh ery aer gbdfz bzdfh adfh f zdhfzghfgh zdfhdf hzdfh zdfh zd fhfdkhzdhfhz",
-                                       profileImageUrl: "WASDASD")
+        if let apiToken = loggedUser?.api_token{
+            changeButtonsStatus(passButtonEnabled: nil, saveButtonEnabled: false)
+            var name: String?
+            var email: String?
+            var salary: Float?
+            var biography: String?
+            var error = false
+            var alertMessage = ""
+            var job: String
             
-            // TODO: No crear nuevo usuario, utilizar el mismo y asignar variables
-            
-            if let api_token = loggedUser?.api_token, let editedEmployee = editedEmployee {
-                NetworkingProvider.shared.modify(employee: editedEmployee, apiToken: api_token) {
-                    self.performSegue(withIdentifier: "backToList", sender: self)
-                } failure: { error in
-                    let errorAlert = Constants.createAlert(title: "Error",
-                                                           message: error,
-                                                           image: Constants.errorImage,
-                                                           color: Constants.customPink)
-                    self.present(errorAlert, animated: true, completion: nil)
-                    self.changeButtonsStatus(passButtonEnabled: nil, saveButtonEnabled: true)
+            switch jobSelector.selectedSegmentIndex {
+            case 0:
+                job = Constants.employee
+            case 1:
+                job = Constants.humanresources
+            case 2:
+                job = Constants.executive
+            default:
+                job = Constants.employee
+            }
+     
+            if let nameText = nameTextfield.text {
+                if nameText.count <= 30 || nameText.isEmpty {
+                    name = nameText
+                } else {
+                    error = true
+                    alertMessage.append(contentsOf: "Name must not be longer than 30 characters \n")
                 }
             }
             
-        } else {
-            editedEmployee = User.init(id: 0,
-                                       name: "puton",
-                                       email: "puta@puton.com",
-                                       job: job,
-                                       salary: 00000,
-                                       biography: "asdfghjklertyuixcvb srdgsryh sht zdh ery aer gbdfz bzdfh adfh f zdhfzghfgh zdfhdf hzdfh zdfh zd fhfdkhzdhfhz",
-                                       profileImageUrl: "asfdasfdasd")
-            if let api_token = loggedUser?.api_token, let editedEmployee = editedEmployee {
-                NetworkingProvider.shared.add(apiToken: api_token, employee: editedEmployee) {
-                    // TODO: unwind segue a la pantalla anterior con los nuevos datos y a la lista
-                    self.performSegue(withIdentifier: "backToList", sender: self)
-                } failure: { error in
-                    let errorAlert = Constants.createAlert(title: "Error",
-                                                           message: error,
-                                                           image: Constants.errorImage,
-                                                           color: Constants.customPink)
-                    self.present(errorAlert, animated: true, completion: nil)
-                    self.changeButtonsStatus(passButtonEnabled: nil, saveButtonEnabled: true)
+            if let emailText = emailTextfield.text {
+                if emailText.count <= 40 && !emailText.isEmpty {
+                    email = emailText
+                } else {
+                    error = true
+                    alertMessage.append(contentsOf: "Email is mandatory and must not be longer than 30 characters\n")
+                }
+            }
+            
+            if let salaryText = salaryTextfield.text, let salaryNumber = Float(salaryText) {
+                salary = salaryNumber
+            } else {
+                error = true
+                alertMessage.append(contentsOf: "Salary is mandatory and must be a number\n")
+            }
+           
+            if let biographyText = biographyTextfield.text {
+                if biographyText.count <= 500 && !biographyText.isEmpty {
+                    biography = biographyText
+                } else {
+                    error = true
+                    alertMessage.append(contentsOf: "Biogtaphy is mandatory and must not be longer than 500 characters\n")
+                }
+            }
+            
+            if error {
+                let errorAlert = Constants.createAlert(title: "Check fields",
+                                                       message: alertMessage,
+                                                       image: Constants.errorImage,
+                                                       color: Constants.customPink)
+                present(errorAlert, animated: true, completion: nil)
+                changeButtonsStatus(passButtonEnabled: nil, saveButtonEnabled: true)
+            } else {
+                if let correctName = name, let correctEmail = email, let correctBiography = biography, let correctSalary = salary {
+                    if let employee = employee, let id = employee.id{
+                        employee.name = correctName
+                        employee.email = correctEmail
+                        employee.job = job
+                        employee.salary = correctSalary
+                        employee.biography = correctBiography
+                        if let profileImageURL = profileImageURL {
+                            employee.profileImgUrl = profileImageURL
+                        }
+                        
+                        NetworkingProvider.shared.modify(employee: employee, apiToken: apiToken, employeeID: id) {
+                            self.performSegue(withIdentifier: "backToList", sender: self)
+                        } failure: { error in
+                            let errorAlert = Constants.createAlert(title: "Error",
+                                                                   message: error,
+                                                                   image: Constants.errorImage,
+                                                                   color: Constants.customPink)
+                            self.present(errorAlert, animated: true, completion: nil)
+                            self.changeButtonsStatus(passButtonEnabled: nil, saveButtonEnabled: true)
+                        }
+                    } else {
+                        employee = User(id: nil, name: correctName, email: correctEmail, job: job, salary: correctSalary, biography: correctBiography, profileImageUrl: profileImageURL ?? "https://picsum.photos/500/500")
+                        if let employee = employee {
+                            NetworkingProvider.shared.add(apiToken: apiToken, employee: employee) {
+                                self.performSegue(withIdentifier: "backToList", sender: self)
+                            } failure: { error in
+                                let errorAlert = Constants.createAlert(title: "Error",
+                                                                       message: error,
+                                                                       image: Constants.errorImage,
+                                                                       color: Constants.customPink)
+                                self.present(errorAlert, animated: true, completion: nil)
+                                self.changeButtonsStatus(passButtonEnabled: nil, saveButtonEnabled: true)
+                            }
+                        }
+                    }
                 }
             }
         }
@@ -222,8 +249,8 @@ class EditEmployeeViewController: UIViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "backToList"{
             let controller = segue.destination as? EmployeesListViewController
-            if let editedEmployee = editedEmployee {
-                controller?.edditedEmployee = editedEmployee
+            if let employee = employee {
+                controller?.edditedEmployee = employee
             }
             if let deletedEmployee = deletedEmployee {
                 controller?.deletedEmployee = deletedEmployee
@@ -245,16 +272,19 @@ class EditEmployeeViewController: UIViewController {
 // MARK: - ImagePicker extension
 extension EditEmployeeViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-        let file = info[.editedImage]
-        let url = info[.imageURL]
-        profileImage.image = file as? UIImage
+        let file = info[.editedImage] as? UIImage
+        let url = info[.imageURL] as? URL
         
-        if let imageUrl = url{
-            NetworkingProvider.shared.uploadImage(imageUrl: imageUrl as? URL, apiToken: loggedUser?.api_token ?? "") { fileUrl in
-                print("uploaded")
+        if let imageUrl = url, let apiToken = loggedUser?.api_token{
+            NetworkingProvider.shared.uploadImage(imageUrl: imageUrl, apiToken: apiToken) { fileUrl in
+                self.profileImage.image = file
+                self.profileImageURL = fileUrl
+                print(fileUrl)
             } failure: { error in
-                print(error)
+                let imageAlert = Constants.createAlert(title: "Error", message: "There was a problem uploading the image, please try again", image: Constants.errorImage, color: Constants.customPink)
+                self.present(imageAlert, animated: true, completion: nil)
             }
+
         }
         picker.dismiss(animated: true, completion: nil)
     }

@@ -39,28 +39,32 @@ class LoginViewController: UIViewController {
         IQKeyboardManager.shared.enable = true
         IQKeyboardManager.shared.keyboardDistanceFromTextField = 20.0
         IQKeyboardManager.shared.toolbarTintColor = Constants.customBlue
-        
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        let userDefaults = UserDefaults.standard
+        do {
+            loggedUser = try userDefaults.getObject(forKey: "loggedUser", castTo: User.self)
+            if let loggedUser = loggedUser, let apiToken = loggedUser.api_token {
+                loadingView.isHidden = false
+                NetworkingProvider.shared.checkToken(apiToken: apiToken) {
+                    self.goToNextScreen(job: loggedUser.job)
+                } failure: { error in
+                    self.loadingView.isHidden = true
+                    let loginAgainAlert = Constants.createAlert(title: "Login again", message: "Your credentials have expired, please login again", image: Constants.passwordImage, color: Constants.customPink)
+                    self.present(loginAgainAlert, animated: true, completion: nil)
+                }
+            }
+        } catch {
+            print(error.localizedDescription)
+        }
     }
     
     // MARK: - Buttons functions
-    @IBAction func login(_ sender: Any) {
+    @IBAction func loginButton(_ sender: Any) {
         if emailTextField.hasText && passwordTextField.hasText {
             self.disableLogin(isLoading: true)
-            // TODO: Sustituir los campos
-            NetworkingProvider.shared.login(email: emailTextField.text ?? "",
-                                            password: passwordTextField.text ?? "")
-            { user in
-                self.loggedUser = user
-                self.goToNextScreen(job: user.job)
-                
-            } failure: { error in
-                self.disableLogin(isLoading: false)
-                self.present(Constants.createAlert(title: "Error",
-                                                   message: error,
-                                                   image: Constants.errorImage,
-                                                   color: Constants.customPink),
-                             animated: true)
-            }
+            login()
         } else {
             self.present(Constants.createAlert(title: "Required fields",
                                           message: "Please, fill in all the fields of the form",
@@ -130,6 +134,27 @@ class LoginViewController: UIViewController {
         }
     }
     
+    func login(){
+        NetworkingProvider.shared.login(email: emailTextField.text ?? "", password: passwordTextField.text ?? "") { user in
+            self.loggedUser = user
+            let userDefaults = UserDefaults.standard
+            do {
+                try userDefaults.setObject(user, forKey: "loggedUser")
+            } catch {
+                print(error.localizedDescription)
+            }
+            self.goToNextScreen(job: user.job)
+            
+        } failure: { error in
+            self.disableLogin(isLoading: false)
+            self.present(Constants.createAlert(title: "Error",
+                                               message: error,
+                                               image: Constants.errorImage,
+                                               color: Constants.customPink),
+                         animated: true)
+        }
+    }
+    
 }
 
 extension LoginViewController: UITextFieldDelegate {
@@ -142,3 +167,5 @@ extension LoginViewController: UITextFieldDelegate {
                 return false
             }
     }
+
+
