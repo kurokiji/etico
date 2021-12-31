@@ -194,11 +194,11 @@ class EditEmployeeViewController: UIViewController {
             }
            
             if let biographyText = biographyTextfield.text {
-                if biographyText.count <= 500 && !biographyText.isEmpty {
+                if biographyText.count <= 300 && !biographyText.isEmpty {
                     biography = biographyText
                 } else {
                     error = true
-                    alertMessage.append(contentsOf: "Biogtaphy is mandatory and must not be longer than 500 characters\n")
+                    alertMessage.append(contentsOf: "Biogtaphy is mandatory and must not be longer than 300 characters\n")
                 }
             }
             
@@ -332,16 +332,17 @@ extension EditEmployeeViewController: UIImagePickerControllerDelegate, UINavigat
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         let file = info[.editedImage] as? UIImage
         let url = info[.imageURL] as? URL
-        
+    
         //QUITAR IMAGEN Y MOSTRAR CARGANDO
         
-        if let imageUrl = url, let apiToken = loggedUser?.api_token{
+        if let file = file, let apiToken = loggedUser?.api_token{
             self.changeInterface(passButtonEnabled: nil, saveButtonEnabled: nil, photoButtonEnabled: false, deleteButtonHidden: nil, progressHidden: false)
-            NetworkingProvider.shared.uploadImage(imageUrl: imageUrl, apiToken: apiToken) { progressQuantity in
+            NetworkingProvider.shared.uploadImage(image: file, apiToken: apiToken) { progressQuantity in
                 self.uploadProgressBar.progress = Float(progressQuantity)
             } success: { fileUrl in
                 self.profileImage.image = file
                 self.profileImageURL = fileUrl
+                
                 self.changeInterface(passButtonEnabled: nil, saveButtonEnabled: nil, photoButtonEnabled: true, deleteButtonHidden: nil, progressHidden: true)
             } failure: { error in
                 let imageAlert = Constants.createAlert(title: "Error",

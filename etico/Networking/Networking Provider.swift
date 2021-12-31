@@ -163,32 +163,35 @@ final class NetworkingProvider {
         }
     }
     
-    func uploadImage(imageUrl: URL?, apiToken: String,progress: @escaping ( _ progressQuantity: Double) -> (), success: @escaping ( _ fileUrl: String) -> (), failure: @escaping ( _ error: String)-> ()) {
+    func uploadImage(image: UIImage?, apiToken: String,progress: @escaping ( _ progressQuantity: Double) -> (), success: @escaping ( _ fileUrl: String) -> (), failure: @escaping ( _ error: String)-> ()) {
         let url = "\(kBaseUrl)/employee/uploadimage"
         let headers: HTTPHeaders = [
             "token" : apiToken
         ]
         
-        if let imageUrl = imageUrl {
-            AF.upload(multipartFormData: { multipartFormData in
-                multipartFormData.append(imageUrl, withName: "photo", fileName: "profile.png" , mimeType: "image/png")
-                
-            }, to: url, method: .post, headers: headers).validate(statusCode: statusOk).uploadProgress(closure: { progressQuantity in
-                progress(progressQuantity.fractionCompleted)
-            }).responseDecodable (of: Response.self) { response in
-                if let status = response.value?.status {
-                    if status == 1 {
-                        if let url = response.value?.msg{
-                            success(Constants.proyectUrl + url)
+//        if let imageUrl = imageUrl {
+            if let file = image?.jpegData(compressionQuality: 0.1){
+                AF.upload(multipartFormData: { multipartFormData in
+                    multipartFormData.append(file, withName: "photo", fileName: "profile.png" , mimeType: "image/png")
+                    
+                }, to: url, method: .post, headers: headers).validate(statusCode: statusOk).uploadProgress(closure: { progressQuantity in
+                    progress(progressQuantity.fractionCompleted)
+                }).responseDecodable (of: Response.self) { response in
+                    if let status = response.value?.status {
+                        if status == 1 {
+                            if let url = response.value?.msg{
+                                success(Constants.proyectUrl + url)
+                            }
+                        } else {
+                            failure(response.value!.msg)
                         }
                     } else {
-                        failure(response.value!.msg)
+                        failure("There is a problem connecting to the server")
                     }
-                } else {
-                    failure("There is a problem connecting to the server")
                 }
             }
-        }
+            
+//        }
     }
     
     func checkToken(apiToken: String, success: @escaping () ->(), failure: @escaping (_ error: String) -> ()) {

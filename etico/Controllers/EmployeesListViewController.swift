@@ -7,6 +7,7 @@
 
 import UIKit
 import Alamofire
+import Kingfisher
 
 class EmployeesListViewController: UIViewController {
 
@@ -180,12 +181,12 @@ class EmployeesListViewController: UIViewController {
     }
     
     func sortList(by: Filters, employeeList: [User]) -> [[User]]{
-        let alphabeticalEmployees = employeeList.sorted(by: { (s1, s2) -> Bool in
-            return s1.name.localizedCompare(s2.name) == .orderedAscending
-            })
         var sortedEmployees: [[User]] = []
         switch by {
         case Filters.name:
+            let alphabeticalEmployees = employeeList.sorted(by: { (s1, s2) -> Bool in
+                return s1.name.localizedCompare(s2.name) == .orderedAscending
+                })
             sortedEmployees = []
             var prevInitial: Character? = nil
             for employee in alphabeticalEmployees {
@@ -197,6 +198,9 @@ class EmployeesListViewController: UIViewController {
                 sortedEmployees[sortedEmployees.endIndex - 1].append(employee)
             }
         case Filters.job:
+            let alphabeticalEmployees = employeeList.sorted(by: { (s1, s2) -> Bool in
+                return s1.name.localizedCompare(s2.name) == .orderedAscending
+                })
             sortedEmployees = [[],[],[]]
             for employee in alphabeticalEmployees{
                 switch employee.job{
@@ -209,8 +213,9 @@ class EmployeesListViewController: UIViewController {
                 }
             }
         case Filters.salary:
+            let bySalaryEmployees = employeesList.sorted(by: {$0.salary < $1.salary})
             sortedEmployees = [[],[],[],[],[],[],[],[],[]]
-            for employee in alphabeticalEmployees {
+            for employee in bySalaryEmployees {
                 switch employee.salary {
                 case 0..<15000:
                     sortedEmployees[0].append(employee)
@@ -246,8 +251,32 @@ extension EmployeesListViewController: UITableViewDataSource, UITableViewDelegat
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "employee", for: indexPath)
-        cell.textLabel!.text = orderedEmployeesList[indexPath.section][indexPath.row].name
+        let cell = tableView.dequeueReusableCell(withIdentifier: "employee", for: indexPath) as! EmployeeTableViewCell
+            cell.nameLabel.text = orderedEmployeesList[indexPath.section][indexPath.row].name
+            let formatter = NumberFormatter()
+            formatter.numberStyle = .currency
+            formatter.currencyDecimalSeparator = ","
+            formatter.currencyGroupingSeparator = "."
+            formatter.locale = Locale(identifier: "es_ES")
+            let salaryNS = NSNumber(value: orderedEmployeesList[indexPath.section][indexPath.row].salary)
+            let salaryText = formatter.string(from: salaryNS)
+            if let salaryText = salaryText {
+                cell.salaryLabel.text = salaryText
+            } else {
+                cell.salaryLabel.text = "\(orderedEmployeesList[indexPath.section][indexPath.row].salary)€"
+            }
+        switch orderedEmployeesList[indexPath.section][indexPath.row].job {
+        case Constants.employee:
+            cell.jobLabel.text = Constants.employeeText
+        case Constants.humanresources:
+            cell.jobLabel.text = Constants.humanresourcesText
+        case Constants.executive:
+            cell.jobLabel.text = Constants.executiveText
+        default:
+            cell.jobLabel.text = "No job"
+        }
+            cell.profileImage.kf.setImage(with: URL(string:  orderedEmployeesList[indexPath.section][indexPath.row].profileImgUrl), placeholder: Constants.profileImage, options: [.transition(.fade(0.25))])
+    
         return cell
     }
     

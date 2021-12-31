@@ -40,6 +40,15 @@ class EmployeeViewController: UIViewController {
         card.layer.shadowOffset = .init(width: 6, height: 6)
         card.layer.shadowRadius = 20
         setLabels()
+//        var frame = self.biographyLabel.frame
+//        frame.size.height = self.biographyLabel.contentSize.height
+//        self.biographyLabel.frame = frame
+//        biographyLabel.translatesAutoresizingMaskIntoConstraints = true
+//        biographyLabel.sizeToFit()
+//        biographyLabel.isScrollEnabled = false
+
+        
+        
         
         if let employee = employee, let loggedUser = loggedUser {
             if employee.id != loggedUser.id {

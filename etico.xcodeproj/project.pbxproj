@@ -27,6 +27,7 @@
 		79C760DA2774C0BC005BB737 /* Response.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79C760D92774C0BC005BB737 /* Response.swift */; };
 		79C760DC277502D2005BB737 /* EmployeeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79C760DB277502D2005BB737 /* EmployeeViewController.swift */; };
 		79C760DE27750C51005BB737 /* EditEmployeeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79C760DD27750C51005BB737 /* EditEmployeeViewController.swift */; };
+		79EC834F277F3BCD0010939D /* EmployeeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79EC834E277F3BCD0010939D /* EmployeeTableViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -51,6 +52,7 @@
 		79C760D92774C0BC005BB737 /* Response.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Response.swift; sourceTree = "<group>"; };
 		79C760DB277502D2005BB737 /* EmployeeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmployeeViewController.swift; sourceTree = "<group>"; };
 		79C760DD27750C51005BB737 /* EditEmployeeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditEmployeeViewController.swift; sourceTree = "<group>"; };
+		79EC834E277F3BCD0010939D /* EmployeeTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmployeeTableViewCell.swift; sourceTree = "<group>"; };
 		9E50F7E835781F29B330705E /* Pods-etico.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-etico.release.xcconfig"; path = "Target Support Files/Pods-etico/Pods-etico.release.xcconfig"; sourceTree = "<group>"; };
 		D86E76F5EB5321AE41DCBAF8 /* Pods-etico.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-etico.debug.xcconfig"; path = "Target Support Files/Pods-etico/Pods-etico.debug.xcconfig"; sourceTree = "<group>"; };
 		F4308657594FC7DC6865AEFF /* Pods_etico.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_etico.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -119,8 +121,8 @@
 		79C760C1277327B2005BB737 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				79C760A7276F87DB005BB737 /* AppDelegate.swift */,
-				79C760A9276F87DB005BB737 /* SceneDelegate.swift */,
+				79EC834D277F3BA00010939D /* System */,
+				79EC834C277F3B9A0010939D /* Views */,
 				79C760B5276F87DC005BB737 /* Info.plist */,
 				79C760D327737618005BB737 /* Constants.swift */,
 				795C9F002777910E00ABCB41 /* CircularImageView.swift */,
@@ -154,8 +156,6 @@
 				79C760DB277502D2005BB737 /* EmployeeViewController.swift */,
 				79C760DD27750C51005BB737 /* EditEmployeeViewController.swift */,
 				79BF82B8277538D30064F990 /* QRViewController.swift */,
-				79BF82BE277655510064F990 /* CustomAlertViewController.swift */,
-				795C9EFE27772EEA00ABCB41 /* PasswordRecoverViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -176,6 +176,25 @@
 				79C760D92774C0BC005BB737 /* Response.swift */,
 			);
 			path = Data;
+			sourceTree = "<group>";
+		};
+		79EC834C277F3B9A0010939D /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				79BF82BE277655510064F990 /* CustomAlertViewController.swift */,
+				795C9EFE27772EEA00ABCB41 /* PasswordRecoverViewController.swift */,
+				79EC834E277F3BCD0010939D /* EmployeeTableViewCell.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		79EC834D277F3BA00010939D /* System */ = {
+			isa = PBXGroup;
+			children = (
+				79C760A7276F87DB005BB737 /* AppDelegate.swift */,
+				79C760A9276F87DB005BB737 /* SceneDelegate.swift */,
+			);
+			path = System;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -294,6 +313,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				79C760D827737807005BB737 /* ProfileViewController.swift in Sources */,
+				79EC834F277F3BCD0010939D /* EmployeeTableViewCell.swift in Sources */,
 				795C9F012777910E00ABCB41 /* CircularImageView.swift in Sources */,
 				795C9EFF27772EEA00ABCB41 /* PasswordRecoverViewController.swift in Sources */,
 				79C760CE2773324A005BB737 /* LoginViewController.swift in Sources */,
