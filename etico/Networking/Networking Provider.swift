@@ -210,4 +210,25 @@ final class NetworkingProvider {
             }
         }
     }
+    
+    func logout(apiToken: String, success: @escaping ()->(), failure: @escaping (_ error: String) -> ()){
+        let url = "\(kBaseUrl)/employee/logout"
+        
+        let headers: HTTPHeaders = [
+            "token" : apiToken
+        ]
+        
+        AF.request(url, method: .put, headers: headers).validate(statusCode: statusOk).responseDecodable (of:Response.self) { response in
+            print(response)
+            if let status = response.value?.status {
+                if status == 1 {
+                    success()
+                } else {
+                    failure(response.value!.msg)
+                }
+            } else {
+                failure("There is a problem connecting to the server")
+            }
+        }
+    }
 }

@@ -20,6 +20,7 @@ class EmployeeViewController: UIViewController {
     @IBOutlet weak var biographyLabel: UITextView!
     @IBOutlet weak var card: UIView!
     @IBOutlet weak var profileImage: UIImageView!
+    @IBOutlet weak var logoutButton: UIButton!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -39,6 +40,12 @@ class EmployeeViewController: UIViewController {
         card.layer.shadowOffset = .init(width: 6, height: 6)
         card.layer.shadowRadius = 20
         setLabels()
+        
+        if let employee = employee, let loggedUser = loggedUser {
+            if employee.id != loggedUser.id {
+                logoutButton.isHidden = true
+            }
+        }
     }
     
     // MARK: - Supporting functions
@@ -89,5 +96,28 @@ class EmployeeViewController: UIViewController {
     @IBAction func editButton(_ sender: Any) {
         performSegue(withIdentifier: "editEmployee", sender: nil)
     }
+    
+    @IBAction func logout(_ sender: Any) {
+        if let apiToken = loggedUser?.api_token {
+            NetworkingProvider.shared.logout(apiToken: apiToken) {
+                let userDefaults = UserDefaults.standard
+                do {
+                    try userDefaults.removeObject(forKey: "loggedUser")
+                } catch {
+                    print(error.localizedDescription)
+                }
+                if let first = self.presentingViewController,
+                        let second = first.presentingViewController{
+                          first.view.isHidden = true
+                          second.dismiss(animated: true)
+                     }
+            } failure: { error in
+                let errorAlert = Constants.createAlert(title: "Error", message: error, image: Constants.errorImage, color: Constants.customPink, callBack: nil)
+                self.present(errorAlert, animated: true, completion: nil)
+            }
+
+        }
+    }
+    
     
 }

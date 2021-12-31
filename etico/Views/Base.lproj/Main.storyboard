@@ -154,7 +154,7 @@
                                         </constraints>
                                     </view>
                                 </subviews>
-                                <color key="backgroundColor" white="0.0" alpha="0.40000000000000002" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.72731270695364236" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstItem="YSz-Rw-v2p" firstAttribute="centerY" secondItem="ccN-5n-fba" secondAttribute="centerY" id="MFn-tf-NTn"/>
                                     <constraint firstItem="YSz-Rw-v2p" firstAttribute="centerX" secondItem="ccN-5n-fba" secondAttribute="centerX" id="OBH-UI-bHf"/>
@@ -791,6 +791,17 @@
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="plain"/>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="H6l-zd-oSQ">
+                                <rect key="frame" x="374" y="15" width="25" height="22"/>
+                                <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                <state key="normal">
+                                    <imageReference key="image" image="eject" catalog="system" symbolScale="large"/>
+                                </state>
+                                <connections>
+                                    <action selector="logout:" destination="BYZ-38-t0r" eventType="touchUpInside" id="D5C-sO-Bo0"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" red="0.98823523520000001" green="0.98823523520000001" blue="0.98823523520000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
@@ -798,6 +809,8 @@
                             <constraint firstItem="ZUf-hr-oCg" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="0YB-Pq-BRS"/>
                             <constraint firstItem="ZUf-hr-oCg" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="30" id="2Zf-Gr-Zmr"/>
                             <constraint firstItem="YIl-Le-LtO" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="3I4-xk-Qjs"/>
+                            <constraint firstItem="H6l-zd-oSQ" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="15" id="AKR-f7-U7f"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="H6l-zd-oSQ" secondAttribute="trailing" constant="15" id="ITZ-Lb-Cvd"/>
                             <constraint firstItem="eDb-ea-kxY" firstAttribute="top" secondItem="ZUf-hr-oCg" secondAttribute="bottom" constant="30" id="RuX-ED-59V"/>
                             <constraint firstItem="YIl-Le-LtO" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" constant="-98" id="cyY-ue-iFK"/>
                             <constraint firstItem="YIl-Le-LtO" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="dFe-eC-sEJ"/>
@@ -811,6 +824,7 @@
                         <outlet property="biographyLabel" destination="JBD-Ia-wP2" id="gSg-46-Rmk"/>
                         <outlet property="card" destination="eDb-ea-kxY" id="3Ba-vn-Oe8"/>
                         <outlet property="jobLabel" destination="W8T-LO-GI9" id="i5N-29-Bp4"/>
+                        <outlet property="logoutButton" destination="H6l-zd-oSQ" id="o7L-xB-76X"/>
                         <outlet property="nameLabel" destination="ycq-0E-2dv" id="HPR-n7-Ljb"/>
                         <outlet property="profileImage" destination="ZUf-hr-oCg" id="cWk-ev-Rle"/>
                         <outlet property="salaryLabel" destination="yVv-uF-apE" id="2Ky-Vf-EMd"/>
@@ -1032,12 +1046,13 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="wlE-Bp-DlM"/>
-        <segue reference="sPv-ns-oVO"/>
+        <segue reference="MDg-9h-BLF"/>
+        <segue reference="kc4-jX-Hk0"/>
         <segue reference="oYJ-SH-qnZ"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="background" width="390" height="481"/>
+        <image name="eject" catalog="system" width="128" height="112"/>
         <image name="exclamationmark.triangle.fill" catalog="system" width="128" height="112"/>
         <image name="list.number" catalog="system" width="128" height="97"/>
         <image name="logo" width="314" height="160"/>

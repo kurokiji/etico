@@ -65,6 +65,7 @@ class LoginViewController: UIViewController {
             if let loggedUser = loggedUser, let apiToken = loggedUser.api_token {
                 loadingView.isHidden = false
                 NetworkingProvider.shared.checkToken(apiToken: apiToken) {
+                    self.loadingView.isHidden = true
                     self.goToNextScreen(job: loggedUser.job)
                 } failure: { error in
                     self.loadingView.isHidden = true
@@ -77,6 +78,7 @@ class LoginViewController: UIViewController {
                 }
             }
         } catch {
+            loadingView.isHidden = true
             print(error.localizedDescription)
         }
     }

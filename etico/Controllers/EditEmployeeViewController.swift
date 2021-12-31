@@ -85,6 +85,7 @@ class EditEmployeeViewController: UIViewController {
             if let loggedUser = loggedUser {
                 if employee.id == loggedUser.id {
                     changeInterface(passButtonEnabled: nil, saveButtonEnabled: nil, photoButtonEnabled: nil, deleteButtonHidden: true, progressHidden: nil)
+                    jobSelector.isEnabled = false
                     
                 } else {
                     changeInterface(passButtonEnabled: nil, saveButtonEnabled: nil, photoButtonEnabled: nil, deleteButtonHidden: false, progressHidden: nil)
@@ -221,6 +222,16 @@ class EditEmployeeViewController: UIViewController {
                         }
                         
                         NetworkingProvider.shared.modify(employee: employee, apiToken: apiToken, employeeID: id) {
+                            if let loggedUser = self.loggedUser {
+                                if loggedUser.id == employee.id {
+                                    let userDefaults = UserDefaults.standard
+                                    do {
+                                        try userDefaults.setObject(employee, forKey: "loggedUser")
+                                    } catch {
+                                        print(error.localizedDescription)
+                                    }
+                                }
+                            }
                             self.performSegue(withIdentifier: "backToList", sender: self)
                         } failure: { error in
                             let errorAlert = Constants.createAlert(title: "Error",
