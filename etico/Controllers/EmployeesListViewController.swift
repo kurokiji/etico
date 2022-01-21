@@ -168,14 +168,29 @@ class EmployeesListViewController: UIViewController {
                 self.filterButton.isEnabled = true
                 self.addButton.isEnabled = true
             } failure: { error in
+                
                 self.present(Constants.createAlert(title: "An error has occured",
-                                                   message: "Touch Dismiss to try again",
+                                                   message: error,
                                                    image: Constants.alertImage,
                                                    color: Constants.customPink,
                                                    callBack: {
-                    self.retrieveData()
+                                                    self.retrieveData()
                 }),
                              animated: true)
+            } noPermission: { error in
+                let userDefaults = UserDefaults.standard
+                do {
+                    try userDefaults.removeObject(forKey: "loggedUser")
+                } catch {
+                    print(error.localizedDescription)
+                }
+            
+                // TODO: ¿Por que tengo que lanzar doble dismiss?
+                self.present(Constants.createAlert(title: "as", message: "asda", image: Constants.errorImage, color: Constants.customPink, callBack: {
+                    self.dismiss(animated: true) {
+                        self.dismiss(animated: true, completion: nil)
+                    }
+                }), animated: true, completion: nil)
             }
         }
     }
@@ -239,6 +254,8 @@ class EmployeesListViewController: UIViewController {
         return sortedEmployees
     }
 }
+
+// TODO: Intentar eliminar los header que no tengan contenido, comprobando el contenido antes de mostrar
 
 // MARK: - Table extension
 extension EmployeesListViewController: UITableViewDataSource, UITableViewDelegate {

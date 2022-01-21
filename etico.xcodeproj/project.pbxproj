@@ -141,8 +141,8 @@
 		79C760C3277327C8005BB737 /* Networking */ = {
 			isa = PBXGroup;
 			children = (
-				79C760C62773282E005BB737 /* Data */,
 				79C760C727732C77005BB737 /* Networking Provider.swift */,
+				79C760C62773282E005BB737 /* Data */,
 			);
 			path = Networking;
 			sourceTree = "<group>";

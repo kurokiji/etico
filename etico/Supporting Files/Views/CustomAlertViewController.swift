@@ -22,7 +22,6 @@ class CustomAlertViewController: UIViewController {
     @IBOutlet weak var imageView: UIImageView!
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var messageTextView: UITextView!
-    @IBOutlet weak var messageTextViewHC: NSLayoutConstraint!
     @IBOutlet weak var dismissButton: UIButton!
     
     override func viewDidLoad() {
@@ -42,7 +41,10 @@ class CustomAlertViewController: UIViewController {
         alertViewCard.layer.shadowOffset = .init(width: 6, height: 6)
         alertViewCard.layer.shadowRadius = 20
         changeValues()
-        messageTextViewHC.constant = self.messageTextView.contentSize.height
+
+        messageTextView.isScrollEnabled = false
+        messageTextView.text = message
+        messageTextView.sizeToFit()
     }
     
     // MARK: - Buttons functions

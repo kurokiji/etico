@@ -39,6 +39,7 @@ class EditEmployeeViewController: UIViewController {
     
     
     // TODO: Modificar botones dependiendo de donde venga, o hacerlo enl anterior
+    // TODO: Si crea un usuario executive no sale ordenado
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -137,6 +138,14 @@ class EditEmployeeViewController: UIViewController {
                                                            color: Constants.customPink,
                                                            callBack: nil)
                     self.present(errorAlert, animated: true, completion: nil)
+                } noPermission: { error in
+                    self.present(Constants.createAlert(title: "No permission", message: error, image: Constants.errorImage, color: Constants.customPink, callBack: {
+                        if let first = self.presentingViewController,
+                                let second = first.presentingViewController{
+                                  first.view.isHidden = true
+                                  second.dismiss(animated: true)
+                             }
+                    }), animated: true, completion: nil)
                 }
             }
         }))
@@ -241,6 +250,15 @@ class EditEmployeeViewController: UIViewController {
                                                                    callBack: nil)
                             self.present(errorAlert, animated: true, completion: nil)
                             self.changeInterface(passButtonEnabled: nil, saveButtonEnabled: true, photoButtonEnabled: nil, deleteButtonHidden: nil, progressHidden: nil)
+                        } noPermission: { error in
+                            //TODO: Codigo duplicado
+                            self.present(Constants.createAlert(title: "No permission", message: error, image: Constants.errorImage, color: Constants.customPink, callBack: {
+                                if let first = self.presentingViewController,
+                                        let second = first.presentingViewController{
+                                          first.view.isHidden = true
+                                          second.dismiss(animated: true)
+                                     }
+                            }), animated: true, completion: nil)
                         }
                     } else {
                         employee = User(id: nil, name: correctName, email: correctEmail, job: job, salary: correctSalary, biography: correctBiography, profileImageUrl: profileImageURL ?? "https://picsum.photos/500/500")
@@ -255,6 +273,21 @@ class EditEmployeeViewController: UIViewController {
                                                                        callBack: nil)
                                 self.present(errorAlert, animated: true, completion: nil)
                                 self.changeInterface(passButtonEnabled: nil, saveButtonEnabled: true, photoButtonEnabled: nil, deleteButtonHidden: nil, progressHidden: nil)
+                            } noPermission: { error in
+                                let userDefaults = UserDefaults.standard
+                                do {
+                                    try userDefaults.removeObject(forKey: "loggedUser")
+                                } catch {
+                                    print(error.localizedDescription)
+                                }
+                            
+                                self.present(Constants.createAlert(title: "No permission", message: error, image: Constants.errorImage, color: Constants.customPink, callBack: {
+                                    if let first = self.presentingViewController,
+                                            let second = first.presentingViewController{
+                                              first.view.isHidden = true
+                                              second.dismiss(animated: true)
+                                         }
+                                }), animated: true, completion: nil)
                             }
                         }
                     }

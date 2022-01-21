@@ -63,22 +63,9 @@ class LoginViewController: UIViewController {
         do {
             loggedUser = try userDefaults.getObject(forKey: "loggedUser", castTo: User.self)
             if let loggedUser = loggedUser, let apiToken = loggedUser.api_token {
-                loadingView.isHidden = false
-                NetworkingProvider.shared.checkToken(apiToken: apiToken) {
-                    self.loadingView.isHidden = true
-                    self.goToNextScreen(job: loggedUser.job)
-                } failure: { error in
-                    self.loadingView.isHidden = true
-                    let loginAgainAlert = Constants.createAlert(title: "Login again",
-                                                                message: "Your credentials have expired, please login again",
-                                                                image: Constants.passwordImage,
-                                                                color: Constants.customPink,
-                                                                callBack: nil)
-                    self.present(loginAgainAlert, animated: true, completion: nil)
-                }
+                goToNextScreen(job: loggedUser.job)
             }
         } catch {
-            loadingView.isHidden = true
             print(error.localizedDescription)
         }
     }
@@ -169,6 +156,7 @@ class LoginViewController: UIViewController {
             } catch {
                 print(error.localizedDescription)
             }
+            self.disableLogin(isLoading: false)
             self.goToNextScreen(job: user.job)
             
         } failure: { error in
