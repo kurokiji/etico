@@ -9,7 +9,7 @@ import Foundation
 import UIKit
 
 final class Constants {
-    static let proyectUrl = "http://kurokiji.com"
+    static let proyectUrl = "http://kurokiji.es"
     
     static let employee = "employee"
     static let humanresources = "humanresources"
@@ -32,9 +32,8 @@ final class Constants {
     static let alertImage = UIImage(systemName: "exclamationmark.triangle.fill")
     static let profileImage = UIImage(systemName: "person.circle")
     
-
     
-    enum job {
+   enum job {
         case employee
         case humanresouces
         case executive

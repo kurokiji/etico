@@ -29,22 +29,11 @@ final class NetworkingProvider {
                         success(user)
                     }
                 case 400...499:
-                    failure(response.value!.msg)
+                    failure(response.value?.msg ?? "Error")
                 default:
                     failure("There is a problem connecting to the server")
                 }
             }
-//            if let status = response.value?.status {
-//                if status == 1 {
-//                    if let user = response.value?.user {
-//                        success(user)
-//                    }
-//                } else {
-//                    failure(response.value!.msg)
-//                }
-//            } else {
-//                failure("There is a problem connecting to the server")
-//            }
         }
     }
     
@@ -68,22 +57,6 @@ final class NetworkingProvider {
                     failure(response.error?.localizedDescription ?? "There is a problem connecting to the server")
                 }
             }
-            
-//            if let status = response.value?.status {
-//                if status == 1 {
-//                    if let employees = response.value?.data {
-//                        success(employees)
-//                    }
-//                } else {
-//                    failure(response.value!.msg)
-//                }
-//            } else {
-//                if response.response?.statusCode == 403 {
-//                    noPermission("No permission")
-//                } else {
-//                    failure("There is a problem connecting to the server")
-//                }
-//            }
         }
     }
     
@@ -140,22 +113,12 @@ final class NetworkingProvider {
                 switch httpCode {
                 case 200:
                     success()
-                    // TODO: Forzar 404
                 case 400...499:
                     failure(response.value!.msg)
                 default:
                     failure("There is a problem connecting to the server")
                 }
             }
-//            if let status = response.value?.status {
-//                if status == 1 {
-//                    success()
-//                } else {
-//                    failure(response.value!.msg)
-//                }
-//            } else {
-//                failure("There is a problem connecting to the server")
-//            }
         }
     }
     
@@ -188,16 +151,6 @@ final class NetworkingProvider {
                     failure("There is a problem connecting to the server")
                 }
             }
-            
-//            if let status = response.value?.status {
-//                if status == 1 {
-//                    success()
-//                } else {
-//                    failure(response.value!.msg)
-//                }
-//            } else {
-//                failure("There is a problem connecting to the server")
-//            }
         }
         
     }
@@ -221,26 +174,15 @@ final class NetworkingProvider {
                     failure("There is a problem connecting to the server")
                 }
             }
-//            if let status = response.value?.status {
-//                if status == 1 {
-//                    success()
-//                } else {
-//                    failure(response.value!.msg)
-//                }
-//            } else {
-//                failure("There is a problem connecting to the server")
-//            }
         }
     }
     
     func uploadImage(image: UIImage?, apiToken: String,progress: @escaping ( _ progressQuantity: Double) -> (), success: @escaping ( _ fileUrl: String) -> (), failure: @escaping ( _ error: String)-> ()) {
-        let url = "\(kBaseUrl)/employee/uploadimage"
+        let url = "http://kurokiji.es/api/employee/uploadimage"
         let headers: HTTPHeaders = [
             "token" : apiToken
         ]
-        
-//        if let imageUrl = imageUrl {
-            if let file = image?.jpegData(compressionQuality: 0.1){
+        if let file = image?.jpegData(compressionQuality: 0.1){
                 AF.upload(multipartFormData: { multipartFormData in
                     multipartFormData.append(file, withName: "photo", fileName: "profile.png" , mimeType: "image/png")
                     
@@ -250,28 +192,17 @@ final class NetworkingProvider {
                     if let httpCode = response.response?.statusCode {
                         switch httpCode {
                         case 200:
-                            success(Constants.proyectUrl + url)
+                            if let imageUrl = response.value?.msg {
+                                success(Constants.proyectUrl + imageUrl)
+                            }
                         case 400...499:
                             failure(response.value!.msg)
                         default:
                             failure("There is a problem connecting to the server")
                         }
                     }
-//                    if let status = response.value?.status {
-//                        if status == 1 {
-//                            if let url = response.value?.msg{
-//                                success(Constants.proyectUrl + url)
-//                            }
-//                        } else {
-//                            failure(response.value!.msg)
-//                        }
-//                    } else {
-//                        failure("There is a problem connecting to the server")
-//                    }
                 }
             }
-            
-//        }
     }
     
     
@@ -292,15 +223,7 @@ final class NetworkingProvider {
                 default:
                     failure("There is a problem connecting to the server")
                 }
-            }//            if let status = response.value?.status {
-//                if status == 1 {
-//                    success()
-//                } else {
-//                    failure(response.value!.msg)
-//                }
-//            } else {
-//                failure("There is a problem connecting to the server")
-//            }
+            }
         }
     }
 }

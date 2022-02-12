@@ -37,35 +37,8 @@ class EditEmployeeViewController: UIViewController {
     @IBOutlet weak var contentView: UIView!
     @IBOutlet weak var scrollView: UIScrollView!
     
-    
-    // TODO: Modificar botones dependiendo de donde venga, o hacerlo enl anterior
-    // TODO: Si crea un usuario executive no sale ordenado
-    
     override func viewDidLoad() {
         super.viewDidLoad()
-        // MARK: - Dark mode configuration
-        switch traitCollection.userInterfaceStyle {
-               case .light, .unspecified:
-            print("light")
-               case .dark:
-            contentView.backgroundColor = UIColor.darkGray
-            view.backgroundColor = UIColor.darkGray
-            scrollView.backgroundColor = UIColor.darkGray
-            card.backgroundColor = Constants.customGrey
-            emailTextfield.layer.borderColor = UIColor.lightGray.cgColor
-            emailTextfield.backgroundColor = Constants.customBlack
-            emailTextfield.layer.borderWidth = 0.5
-            emailTextfield.layer.cornerRadius = 10
-            nameTextfield.layer.borderColor = UIColor.lightGray.cgColor
-            nameTextfield.backgroundColor = Constants.customBlack
-            nameTextfield.layer.borderWidth = 0.5
-            nameTextfield.layer.cornerRadius = 10
-            salaryTextfield.layer.borderColor = UIColor.lightGray.cgColor
-            salaryTextfield.backgroundColor = Constants.customBlack
-            salaryTextfield.layer.borderWidth = 0.5
-            salaryTextfield.layer.cornerRadius = 10
-            
-        }
         
         // MARK: - View configuration
         scrollView.bounces = false
@@ -76,10 +49,24 @@ class EditEmployeeViewController: UIViewController {
         card.layer.shadowRadius = 20
         IQKeyboardManager.shared.enable = true
         IQKeyboardManager.shared.keyboardDistanceFromTextField = 20.0
-        IQKeyboardManager.shared.toolbarTintColor = Constants.customBlue
+        IQKeyboardManager.shared.toolbarTintColor = UIColor(named: "CustomBlue") ?? Constants.customBlue
         biographyTextfield.layer.borderColor = UIColor.lightGray.cgColor
         biographyTextfield.layer.borderWidth = 0.2
         biographyTextfield.layer.cornerRadius = 10
+        salaryTextfield.layer.borderWidth = 0.5
+        salaryTextfield.layer.cornerRadius = 10
+        emailTextfield.layer.borderColor = UIColor.lightGray.cgColor
+        emailTextfield.backgroundColor = UIColor(named: "CustomBackgroundColor")!
+        emailTextfield.layer.borderWidth = 0.5
+        emailTextfield.layer.cornerRadius = 10
+        nameTextfield.layer.borderColor = UIColor.lightGray.cgColor
+        nameTextfield.backgroundColor = UIColor(named: "CustomBackgroundColor")!
+        nameTextfield.layer.borderWidth = 0.5
+        nameTextfield.layer.cornerRadius = 10
+        salaryTextfield.layer.borderColor = UIColor.lightGray.cgColor
+        salaryTextfield.backgroundColor = UIColor(named: "CustomBackgroundColor")!
+        salaryTextfield.layer.borderWidth = 0.5
+        salaryTextfield.layer.cornerRadius = 10
         changeInterface(passButtonEnabled: nil, saveButtonEnabled: nil, photoButtonEnabled: nil, deleteButtonHidden: nil, progressHidden: true)
  
         if let employee = employee {
@@ -135,11 +122,15 @@ class EditEmployeeViewController: UIViewController {
                     let errorAlert = Constants.createAlert(title: "Error",
                                                            message: error,
                                                            image: Constants.errorImage,
-                                                           color: Constants.customPink,
+                                                           color: UIColor(named: "CustomPink") ?? UIColor(named: "CustomPink") ?? Constants.customPink,
                                                            callBack: nil)
                     self.present(errorAlert, animated: true, completion: nil)
                 } noPermission: { error in
-                    self.present(Constants.createAlert(title: "No permission", message: error, image: Constants.errorImage, color: Constants.customPink, callBack: {
+                    self.present(Constants.createAlert(title: "No permission",
+                                                       message: error,
+                                                       image: Constants.errorImage,
+                                                       color: UIColor(named: "CustomPink") ?? Constants.customPink,
+                                                       callBack: {
                         if let first = self.presentingViewController,
                                 let second = first.presentingViewController{
                                   first.view.isHidden = true
@@ -215,7 +206,7 @@ class EditEmployeeViewController: UIViewController {
                 let errorAlert = Constants.createAlert(title: "Check fields",
                                                        message: alertMessage,
                                                        image: Constants.errorImage,
-                                                       color: Constants.customPink,
+                                                       color: UIColor(named: "CustomPink") ?? Constants.customPink,
                                                        callBack: nil)
                 present(errorAlert, animated: true, completion: nil)
                 self.changeInterface(passButtonEnabled: nil, saveButtonEnabled: true, photoButtonEnabled: nil, deleteButtonHidden: nil, progressHidden: nil)            } else {
@@ -246,13 +237,16 @@ class EditEmployeeViewController: UIViewController {
                             let errorAlert = Constants.createAlert(title: "Error",
                                                                    message: error,
                                                                    image: Constants.errorImage,
-                                                                   color: Constants.customPink,
+                                                                   color: UIColor(named: "CustomPink") ?? Constants.customPink,
                                                                    callBack: nil)
                             self.present(errorAlert, animated: true, completion: nil)
                             self.changeInterface(passButtonEnabled: nil, saveButtonEnabled: true, photoButtonEnabled: nil, deleteButtonHidden: nil, progressHidden: nil)
                         } noPermission: { error in
                             //TODO: Codigo duplicado
-                            self.present(Constants.createAlert(title: "No permission", message: error, image: Constants.errorImage, color: Constants.customPink, callBack: {
+                            self.present(Constants.createAlert(title: "No permission",
+                                                               message: error, image: Constants.errorImage,
+                                                               color: UIColor(named: "CustomPink") ?? Constants.customPink,
+                                                               callBack: {
                                 if let first = self.presentingViewController,
                                         let second = first.presentingViewController{
                                           first.view.isHidden = true
@@ -269,7 +263,7 @@ class EditEmployeeViewController: UIViewController {
                                 let errorAlert = Constants.createAlert(title: "Error",
                                                                        message: error,
                                                                        image: Constants.errorImage,
-                                                                       color: Constants.customPink,
+                                                                       color: UIColor(named: "CustomPink") ?? Constants.customPink,
                                                                        callBack: nil)
                                 self.present(errorAlert, animated: true, completion: nil)
                                 self.changeInterface(passButtonEnabled: nil, saveButtonEnabled: true, photoButtonEnabled: nil, deleteButtonHidden: nil, progressHidden: nil)
@@ -281,7 +275,11 @@ class EditEmployeeViewController: UIViewController {
                                     print(error.localizedDescription)
                                 }
                             
-                                self.present(Constants.createAlert(title: "No permission", message: error, image: Constants.errorImage, color: Constants.customPink, callBack: {
+                                self.present(Constants.createAlert(title: "No permission",
+                                                                   message: error,
+                                                                   image: Constants.errorImage,
+                                                                   color: UIColor(named: "CustomPink") ?? Constants.customPink,
+                                                                   callBack: {
                                     if let first = self.presentingViewController,
                                             let second = first.presentingViewController{
                                               first.view.isHidden = true
@@ -303,7 +301,7 @@ class EditEmployeeViewController: UIViewController {
                 let passAlert = Constants.createAlert(title: "New password sent",
                                                       message: "The new password has been sent to the employee email",
                                                       image: Constants.passwordImage,
-                                                      color: Constants.customBlue,
+                                                      color: UIColor(named: "CustomBlue") ?? Constants.customBlue,
                                                       callBack: nil)
                 self.present(passAlert, animated: true, completion: nil)
                 self.changeInterface(passButtonEnabled: true, saveButtonEnabled: nil, photoButtonEnabled: nil, deleteButtonHidden: nil, progressHidden: nil)
@@ -311,7 +309,7 @@ class EditEmployeeViewController: UIViewController {
                 let errorAlert = Constants.createAlert(title: "Error",
                                                        message: error,
                                                        image: Constants.errorImage,
-                                                       color: Constants.customPink,
+                                                       color: UIColor(named: "CustomPink") ?? Constants.customPink,
                                                        callBack: nil)
                 self.present(errorAlert, animated: true, completion: nil)
                 self.changeInterface(passButtonEnabled: true, saveButtonEnabled: nil, photoButtonEnabled: nil, deleteButtonHidden: nil, progressHidden: nil)
@@ -365,9 +363,7 @@ extension EditEmployeeViewController: UIImagePickerControllerDelegate, UINavigat
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         let file = info[.editedImage] as? UIImage
         let url = info[.imageURL] as? URL
-    
-        //QUITAR IMAGEN Y MOSTRAR CARGANDO
-        
+            
         if let file = file, let apiToken = loggedUser?.api_token{
             self.changeInterface(passButtonEnabled: nil, saveButtonEnabled: nil, photoButtonEnabled: false, deleteButtonHidden: nil, progressHidden: false)
             NetworkingProvider.shared.uploadImage(image: file, apiToken: apiToken) { progressQuantity in
@@ -381,7 +377,7 @@ extension EditEmployeeViewController: UIImagePickerControllerDelegate, UINavigat
                 let imageAlert = Constants.createAlert(title: "Error",
                                                        message: "There was a problem uploading the image, please try again",
                                                        image: Constants.errorImage,
-                                                       color: Constants.customPink,
+                                                       color: UIColor(named: "CustomPink") ?? Constants.customPink,
                                                        callBack: nil)
                 self.changeInterface(passButtonEnabled: nil, saveButtonEnabled: nil, photoButtonEnabled: true, deleteButtonHidden: nil, progressHidden: true)
                 self.present(imageAlert, animated: true, completion: nil)

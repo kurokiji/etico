@@ -23,13 +23,10 @@ class ProfileViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // MARK: - Dark mode configuration
-        switch traitCollection.userInterfaceStyle {
-               case .light, .unspecified:
-            print("light")
-               case .dark:
-            view.backgroundColor = UIColor.darkGray
-            card.backgroundColor = Constants.customGrey
+        
+        // MARK: - Fetch logged user
+        if let user = try? UserDefaults.standard.getObject(forKey: "loggedUser", castTo: User.self){
+            loggedUser = user
         }
         
         // MARK: - View configuration
@@ -74,6 +71,26 @@ class ProfileViewController: UIViewController {
     // MARK: - Buttons functions
     @IBAction func showQr(_ sender: Any) {
         performSegue(withIdentifier: "showQR", sender: nil)
+    }
+    @IBAction func logout(_ sender: Any) {
+        if let apiToken = loggedUser?.api_token {
+            NetworkingProvider.shared.logout(apiToken: apiToken) {
+                let userDefaults = UserDefaults.standard
+                do {
+                    try userDefaults.removeObject(forKey: "loggedUser")
+                } catch {
+                    print(error.localizedDescription)
+                }
+                self.dismiss(animated: true, completion: nil)
+            } failure: { error in
+                let errorAlert = Constants.createAlert(title: "Error",
+                                                       message: error,
+                                                       image: Constants.errorImage,
+                                                       color: UIColor(named: "CustomPink") ?? Constants.customPink,
+                                                       callBack: nil)
+                self.present(errorAlert, animated: true, completion: nil)
+            }
+        }
     }
     
     // MARK: - Navigation

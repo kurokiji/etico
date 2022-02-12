@@ -7,6 +7,7 @@
 
 import UIKit
 import IQKeyboardManagerSwift
+import SwiftUI
 
 class LoginViewController: UIViewController {
 
@@ -24,28 +25,13 @@ class LoginViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // MARK: - Dark mode configuration
-        switch traitCollection.userInterfaceStyle {
-               case .light, .unspecified:
-            print("light")
-               case .dark:
-            view.backgroundColor = UIColor.darkGray
-            card.backgroundColor = Constants.customGrey
-            emailTextField.layer.borderColor = UIColor.lightGray.cgColor
-            emailTextField.layer.borderWidth = 0.5
-            emailTextField.layer.cornerRadius = 10
-            passwordTextField.layer.borderColor = UIColor.lightGray.cgColor
-            passwordTextField.layer.borderWidth = 0.5
-            passwordTextField.layer.cornerRadius = 10
-            loadingCard.backgroundColor = Constants.customGrey
-        }
         
         // MARK: - View configuration
         emailTextField.delegate = self
         passwordTextField.delegate = self
         emailTextField.tag = 0
         passwordTextField.tag = 1
-        activityIndicator.color = Constants.customYellow
+        activityIndicator.color = UIColor(named: "CustomYellow") ?? Constants.customYellow
         loadingView.isHidden = true
         loadingCard.layer.cornerRadius = 20
         card.layer.cornerRadius = 20
@@ -53,33 +39,27 @@ class LoginViewController: UIViewController {
         card.layer.shadowOpacity = 0.5
         card.layer.shadowOffset = .init(width: 6, height: 6)
         card.layer.shadowRadius = 20
+        emailTextField.layer.borderColor = UIColor.lightGray.cgColor
+        emailTextField.layer.borderWidth = 0.5
+        emailTextField.layer.cornerRadius = 10
+        passwordTextField.layer.borderColor = UIColor.lightGray.cgColor
+        passwordTextField.layer.borderWidth = 0.5
+        passwordTextField.layer.cornerRadius = 10
         IQKeyboardManager.shared.enable = true
         IQKeyboardManager.shared.keyboardDistanceFromTextField = 20.0
-        IQKeyboardManager.shared.toolbarTintColor = Constants.customBlue
-    }
-    
-    override func viewDidAppear(_ animated: Bool) {
-        let userDefaults = UserDefaults.standard
-        do {
-            loggedUser = try userDefaults.getObject(forKey: "loggedUser", castTo: User.self)
-            if let loggedUser = loggedUser, let apiToken = loggedUser.api_token {
-                goToNextScreen(job: loggedUser.job)
-            }
-        } catch {
-            print(error.localizedDescription)
-        }
+        IQKeyboardManager.shared.toolbarTintColor = UIColor(named: "CustomBlue") ?? Constants.customBlue
     }
     
     // MARK: - Buttons functions
     @IBAction func loginButton(_ sender: Any) {
         if emailTextField.hasText && passwordTextField.hasText {
             self.disableLogin(isLoading: true)
-            login()
+            login(email: emailTextField.text!, password: passwordTextField.text!)
         } else {
             self.present(Constants.createAlert(title: "Required fields",
                                                message: "Please, fill in all the fields of the form",
                                                image: Constants.alertImage,
-                                               color: Constants.customYellow,
+                                               color: UIColor(named: "CustomYellow") ?? Constants.customYellow,
                                                callBack: nil),
                          animated: true)
         }
@@ -95,14 +75,14 @@ class LoginViewController: UIViewController {
                     self.present(Constants.createAlert(title: "Success",
                                                        message: "Email sent successfully with your new password",
                                                        image: Constants.passwordImage,
-                                                       color: Constants.customBlue,
+                                                       color: UIColor(named: "CustomBlue") ?? Constants.customBlue,
                                                        callBack: nil),
                                  animated: true)
                 } failure: { error in
                     self.present(Constants.createAlert(title: "Error",
                                                        message: error,
                                                        image: Constants.errorImage,
-                                                       color: Constants.customPink,
+                                                       color: UIColor(named: "CustomPink") ?? Constants.customPink,
                                                        callBack: nil),
                                  animated: true)
 
@@ -128,8 +108,13 @@ class LoginViewController: UIViewController {
         }
     }
     
-    func goToNextScreen(job: String){
-        if job == Constants.humanresources || job == Constants.executive {
+    func goToNextScreen(loggedUser: User){
+        if let vc = presentingViewController as? EmployeesListViewController {
+            vc.loggedUser = loggedUser
+            vc.retrieveData()
+            self.dismiss(animated: true, completion: nil)
+        }
+        if loggedUser.job == Constants.humanresources || loggedUser.job == Constants.executive {
             performSegue(withIdentifier: "showEmployeesList", sender: nil)
         } else {
             performSegue(withIdentifier: "showProfile", sender: nil)
@@ -147,8 +132,8 @@ class LoginViewController: UIViewController {
         }
     }
     
-    func login(){
-        NetworkingProvider.shared.login(email: emailTextField.text ?? "", password: passwordTextField.text ?? "") { user in
+    func login(email: String, password: String){
+        NetworkingProvider.shared.login(email: email, password: password) { user in
             self.loggedUser = user
             let userDefaults = UserDefaults.standard
             do {
@@ -157,14 +142,14 @@ class LoginViewController: UIViewController {
                 print(error.localizedDescription)
             }
             self.disableLogin(isLoading: false)
-            self.goToNextScreen(job: user.job)
+            self.goToNextScreen(loggedUser: user)
             
         } failure: { error in
             self.disableLogin(isLoading: false)
             self.present(Constants.createAlert(title: "Error",
                                                message: error,
                                                image: Constants.errorImage,
-                                               color: Constants.customPink,
+                                               color: UIColor(named: "CustomPink") ?? Constants.customPink,
                                                callBack: nil),
                          animated: true)
         }

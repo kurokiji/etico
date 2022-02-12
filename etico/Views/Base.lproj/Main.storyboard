@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19455" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="L8D-QW-UCt">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19455" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19454"/>
         <capability name="Image references" minToolsVersion="12.0"/>
+        <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -12,7 +13,7 @@
         <!--Login View Controller-->
         <scene sceneID="KP3-bT-Lf0">
             <objects>
-                <viewController id="L8D-QW-UCt" customClass="LoginViewController" customModule="etico" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="LoginViewController" id="L8D-QW-UCt" customClass="LoginViewController" customModule="etico" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="T0N-U5-b2F">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -32,7 +33,7 @@
                             </imageView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="l0A-9R-P5t">
                                 <rect key="frame" x="30" y="814" width="354" height="33"/>
-                                <color key="tintColor" red="0.35686278339999999" green="0.70588237050000002" blue="0.85490196939999996" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                <color key="tintColor" name="CustomBlue"/>
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="plain">
                                     <attributedString key="attributedTitle">
@@ -52,13 +53,13 @@
                                 <rect key="frame" x="33" y="287" width="348" height="492"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Welcome" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dS0-GV-xcF">
-                                        <rect key="frame" x="30" y="32" width="288" height="36"/>
+                                        <rect key="frame" x="30" y="32" width="135" height="36"/>
                                         <fontDescription key="fontDescription" type="system" weight="heavy" pointSize="30"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Please, login here" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nOh-Tp-Kn9">
-                                        <rect key="frame" x="30" y="69" width="288" height="24"/>
+                                        <rect key="frame" x="30" y="69" width="151" height="24"/>
                                         <fontDescription key="fontDescription" type="system" weight="light" pointSize="20"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
@@ -74,13 +75,13 @@
                                         <textInputTraits key="textInputTraits" autocorrectionType="no" secureTextEntry="YES" textContentType="password"/>
                                     </textField>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="email" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6eN-EE-ir0">
-                                        <rect key="frame" x="46" y="132" width="256" height="21"/>
+                                        <rect key="frame" x="46" y="132" width="40.5" height="21"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="password" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Gg6-id-lnz">
-                                        <rect key="frame" x="46" y="239" width="256" height="21"/>
+                                        <rect key="frame" x="46" y="239" width="73.5" height="21"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
@@ -88,10 +89,10 @@
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nbH-sv-cf0">
                                         <rect key="frame" x="204" y="411" width="119" height="51"/>
                                         <constraints>
-                                            <constraint firstAttribute="width" constant="119" id="foI-ft-NGN"/>
+                                            <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="119" id="foI-ft-NGN"/>
                                             <constraint firstAttribute="height" constant="51" id="qRZ-I8-gta"/>
                                         </constraints>
-                                        <color key="tintColor" red="0.84705877299999999" green="0.5176470876" blue="0.65882354970000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                        <color key="tintColor" name="CustomPink"/>
                                         <state key="normal" title="Button"/>
                                         <buttonConfiguration key="configuration" style="filled" title="Login">
                                             <fontDescription key="titleFontDescription" name=".AppleSystemUIFont" family=".AppleSystemUIFont" pointSize="19"/>
@@ -111,18 +112,19 @@
                                     <constraint firstItem="dS0-GV-xcF" firstAttribute="leading" secondItem="wdX-4y-i6a" secondAttribute="leading" constant="30" id="Cfs-2n-Ebe"/>
                                     <constraint firstItem="nOh-Tp-Kn9" firstAttribute="top" secondItem="dS0-GV-xcF" secondAttribute="bottom" constant="1" id="F8N-oq-YZW"/>
                                     <constraint firstItem="Gg6-id-lnz" firstAttribute="top" secondItem="ahw-2z-fVU" secondAttribute="bottom" constant="44" id="Fgr-LW-qS9"/>
-                                    <constraint firstAttribute="trailing" secondItem="6eN-EE-ir0" secondAttribute="trailing" constant="46" id="IEZ-5W-PPF"/>
-                                    <constraint firstAttribute="trailing" secondItem="nOh-Tp-Kn9" secondAttribute="trailing" constant="30" id="JEv-G3-vE7"/>
+                                    <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="6eN-EE-ir0" secondAttribute="trailing" id="IEZ-5W-PPF"/>
+                                    <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="nOh-Tp-Kn9" secondAttribute="trailing" id="JEv-G3-vE7"/>
                                     <constraint firstItem="dS0-GV-xcF" firstAttribute="top" secondItem="wdX-4y-i6a" secondAttribute="top" constant="32" id="Jbc-rH-yL1"/>
                                     <constraint firstItem="6eN-EE-ir0" firstAttribute="top" secondItem="nOh-Tp-Kn9" secondAttribute="bottom" constant="39" id="Klz-1n-mK0"/>
                                     <constraint firstAttribute="bottom" secondItem="nbH-sv-cf0" secondAttribute="bottom" constant="30" id="NEQ-bO-paJ"/>
                                     <constraint firstAttribute="trailing" secondItem="nbH-sv-cf0" secondAttribute="trailing" constant="25" id="THh-50-5Bl"/>
                                     <constraint firstItem="0ON-0F-p65" firstAttribute="leading" secondItem="wdX-4y-i6a" secondAttribute="leading" constant="41" id="U75-Gg-uRV"/>
+                                    <constraint firstItem="nbH-sv-cf0" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="wdX-4y-i6a" secondAttribute="leading" constant="20" symbolic="YES" id="UsV-bW-ht1"/>
                                     <constraint firstItem="Gg6-id-lnz" firstAttribute="leading" secondItem="wdX-4y-i6a" secondAttribute="leading" constant="46" id="VJh-Kd-kwe"/>
                                     <constraint firstItem="ahw-2z-fVU" firstAttribute="leading" secondItem="wdX-4y-i6a" secondAttribute="leading" constant="41" id="YbM-ZY-lKp"/>
-                                    <constraint firstAttribute="trailing" secondItem="Gg6-id-lnz" secondAttribute="trailing" constant="46" id="abl-RA-y0Y"/>
+                                    <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="Gg6-id-lnz" secondAttribute="trailing" id="abl-RA-y0Y"/>
                                     <constraint firstItem="0ON-0F-p65" firstAttribute="top" secondItem="Gg6-id-lnz" secondAttribute="bottom" constant="8" symbolic="YES" id="dOi-Ug-u7L"/>
-                                    <constraint firstAttribute="trailing" secondItem="dS0-GV-xcF" secondAttribute="trailing" constant="30" id="hti-FZ-L0L"/>
+                                    <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="dS0-GV-xcF" secondAttribute="trailing" id="hti-FZ-L0L"/>
                                     <constraint firstItem="ahw-2z-fVU" firstAttribute="top" secondItem="6eN-EE-ir0" secondAttribute="bottom" constant="8" symbolic="YES" id="lfh-S0-VR2"/>
                                     <constraint firstItem="6eN-EE-ir0" firstAttribute="leading" secondItem="wdX-4y-i6a" secondAttribute="leading" constant="46" id="vDF-YY-yPA"/>
                                 </constraints>
@@ -162,7 +164,7 @@
                             </view>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="Qeq-tl-GsO"/>
-                        <color key="backgroundColor" red="0.98872023819999999" green="0.98872023819999999" blue="0.98872023819999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="backgroundColor" name="CustomBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="wdX-4y-i6a" firstAttribute="leading" secondItem="Qeq-tl-GsO" secondAttribute="leading" constant="33" id="EdL-dC-Ug8"/>
                             <constraint firstItem="l0A-9R-P5t" firstAttribute="leading" secondItem="Qeq-tl-GsO" secondAttribute="leading" constant="30" id="K4M-vG-fvE"/>
@@ -202,9 +204,9 @@
         <!--Profile View Controller-->
         <scene sceneID="VPL-e8-EdV">
             <objects>
-                <viewController id="NkI-iH-ErZ" customClass="ProfileViewController" customModule="etico" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="ProfileViewController" id="NkI-iH-ErZ" customClass="ProfileViewController" customModule="etico" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="QGr-1a-FtR">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="background" translatesAutoresizingMaskIntoConstraints="NO" id="bcC-jg-HTb">
@@ -215,14 +217,14 @@
                                 </constraints>
                             </imageView>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="wMm-Ub-moo" customClass="CircularImageView" customModule="etico" customModuleProvider="target">
-                                <rect key="frame" x="75" y="20" width="264" height="264"/>
+                                <rect key="frame" x="75" y="64" width="264" height="264"/>
                                 <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="wMm-Ub-moo" secondAttribute="height" multiplier="1:1" id="cz4-dI-EK4"/>
                                 </constraints>
                             </imageView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="wK0-6v-pqD">
-                                <rect key="frame" x="33" y="332" width="348" height="458"/>
+                                <rect key="frame" x="33" y="376" width="348" height="468"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Daniel Torres" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ujh-Xl-CgJ">
                                         <rect key="frame" x="30" y="32" width="288" height="36"/>
@@ -243,7 +245,7 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" textAlignment="natural" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fzs-P7-a2y">
-                                        <rect key="frame" x="30" y="136" width="288" height="219"/>
+                                        <rect key="frame" x="30" y="136" width="288" height="229"/>
                                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                         <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
                                         <color key="textColor" systemColor="labelColor"/>
@@ -251,8 +253,8 @@
                                         <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                     </textView>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jfm-84-Xif">
-                                        <rect key="frame" x="123" y="390" width="102" height="37"/>
-                                        <color key="tintColor" red="0.35686278339999999" green="0.70588237050000002" blue="0.85490196939999996" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                        <rect key="frame" x="123" y="400" width="102" height="37"/>
+                                        <color key="tintColor" name="CustomBlue"/>
                                         <state key="normal" title="Button"/>
                                         <buttonConfiguration key="configuration" style="filled" title="Show QR">
                                             <fontDescription key="titleFontDescription" type="system" pointSize="19"/>
@@ -284,14 +286,26 @@
                                     <constraint firstAttribute="trailing" secondItem="m5Q-y4-ejx" secondAttribute="trailing" constant="30" id="zv1-pN-FCx"/>
                                 </constraints>
                             </view>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="E6W-9b-30L">
+                                <rect key="frame" x="341" y="35" width="53" height="33"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                <state key="normal" title="log out"/>
+                                <connections>
+                                    <action selector="logout:" destination="NkI-iH-ErZ" eventType="touchUpInside" id="Uma-oY-sZt"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="y8q-3I-ekP"/>
-                        <color key="backgroundColor" red="0.98872023819999999" green="0.98872023819999999" blue="0.98872023819999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="backgroundColor" name="CustomBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="wK0-6v-pqD" firstAttribute="top" secondItem="wMm-Ub-moo" secondAttribute="bottom" constant="48" id="APL-yg-Ag2"/>
                             <constraint firstItem="bcC-jg-HTb" firstAttribute="trailing" secondItem="y8q-3I-ekP" secondAttribute="trailing" id="EX7-3C-f9t"/>
                             <constraint firstItem="y8q-3I-ekP" firstAttribute="trailing" secondItem="wK0-6v-pqD" secondAttribute="trailing" constant="33" id="F3z-4W-BKJ"/>
+                            <constraint firstItem="y8q-3I-ekP" firstAttribute="trailing" secondItem="E6W-9b-30L" secondAttribute="trailing" constant="20" id="LNM-f4-61c"/>
                             <constraint firstItem="wMm-Ub-moo" firstAttribute="leading" secondItem="y8q-3I-ekP" secondAttribute="leading" constant="75" id="Mly-HD-X2o"/>
+                            <constraint firstItem="E6W-9b-30L" firstAttribute="top" secondItem="QGr-1a-FtR" secondAttribute="top" constant="35" id="RTw-Dt-reB"/>
                             <constraint firstItem="wMm-Ub-moo" firstAttribute="top" secondItem="y8q-3I-ekP" secondAttribute="top" constant="20" id="Tow-lR-dTa"/>
                             <constraint firstItem="y8q-3I-ekP" firstAttribute="bottom" secondItem="wK0-6v-pqD" secondAttribute="bottom" constant="18" id="Uxa-Mu-rh0"/>
                             <constraint firstItem="y8q-3I-ekP" firstAttribute="trailing" secondItem="wMm-Ub-moo" secondAttribute="trailing" constant="75" id="YXe-Wz-RI7"/>
@@ -317,7 +331,7 @@
         <!--Employees List View Controller-->
         <scene sceneID="zyi-Au-fj0">
             <objects>
-                <viewController storyboardIdentifier="EmployeesList" id="hML-oG-Zyb" customClass="EmployeesListViewController" customModule="etico" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="EmployeesListController" id="hML-oG-Zyb" customClass="EmployeesListViewController" customModule="etico" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="dzw-JQ-6nv">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -361,7 +375,7 @@
                                     <action selector="filterButton:" destination="hML-oG-Zyb" eventType="touchUpInside" id="dUw-vE-jQd"/>
                                 </connections>
                             </button>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="insetGrouped" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="22" estimatedSectionHeaderHeight="-1" sectionFooterHeight="18" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="GHY-70-4vM">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="insetGrouped" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="GHY-70-4vM">
                                 <rect key="frame" x="0.0" y="112" width="414" height="784"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="employee" rowHeight="72" id="Nhe-Ad-05q" customClass="EmployeeTableViewCell" customModule="etico" customModuleProvider="target">
@@ -507,7 +521,7 @@
                                             </button>
                                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="person.circle" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="wSE-i4-hlG" customClass="CircularImageView" customModule="etico" customModuleProvider="target">
                                                 <rect key="frame" x="82" y="40.5" width="250" height="249"/>
-                                                <color key="tintColor" red="0.98872023819999999" green="0.98872023819999999" blue="0.98872023819999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                <color key="tintColor" name="CustomBackgroundColor"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="250" id="ktY-20-RZj"/>
                                                     <constraint firstAttribute="width" secondItem="wSE-i4-hlG" secondAttribute="height" multiplier="1:1" id="s7I-he-0mM"/>
@@ -562,7 +576,7 @@
                                                             <constraint firstAttribute="width" constant="119" id="kg6-VW-Roq"/>
                                                             <constraint firstAttribute="height" constant="50" id="stC-7q-wPC"/>
                                                         </constraints>
-                                                        <color key="tintColor" red="0.84705877299999999" green="0.5176470876" blue="0.65882354970000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                                        <color key="tintColor" name="CustomPink"/>
                                                         <state key="normal" title="Button"/>
                                                         <buttonConfiguration key="configuration" style="filled">
                                                             <attributedString key="attributedTitle">
@@ -591,7 +605,7 @@
                                                             <constraint firstAttribute="height" constant="50" id="WJO-ef-crw"/>
                                                             <constraint firstAttribute="width" constant="119" id="bee-C3-ZYm"/>
                                                         </constraints>
-                                                        <color key="tintColor" red="0.35686278339999999" green="0.70588237050000002" blue="0.85490196939999996" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                                        <color key="tintColor" name="CustomBlue"/>
                                                         <state key="normal" title="Button"/>
                                                         <buttonConfiguration key="configuration" style="filled" title="Save">
                                                             <fontDescription key="titleFontDescription" type="system" pointSize="17"/>
@@ -658,7 +672,7 @@
                                             </view>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mfr-wk-Dwf">
                                                 <rect key="frame" x="161.5" y="305" width="91.5" height="31"/>
-                                                <color key="tintColor" red="0.35686278339999999" green="0.70588237050000002" blue="0.85490196939999996" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                                <color key="tintColor" name="CustomBackgroundColor"/>
                                                 <state key="normal" title="Button"/>
                                                 <buttonConfiguration key="configuration" style="plain" title="Add Photo"/>
                                                 <connections>
@@ -667,10 +681,10 @@
                                             </button>
                                             <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" progress="0.69999999999999996" translatesAutoresizingMaskIntoConstraints="NO" id="39J-ol-uus">
                                                 <rect key="frame" x="132" y="300" width="150" height="4"/>
-                                                <color key="progressTintColor" red="0.35686278339999999" green="0.70588237050000002" blue="0.85490196939999996" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                                <color key="progressTintColor" name="CustomBackgroundColor"/>
                                             </progressView>
                                         </subviews>
-                                        <color key="backgroundColor" red="0.98872023819999999" green="0.98872023819999999" blue="0.98872023819999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <color key="backgroundColor" name="CustomBackgroundColor"/>
                                         <constraints>
                                             <constraint firstItem="39J-ol-uus" firstAttribute="top" secondItem="wSE-i4-hlG" secondAttribute="bottom" constant="10" id="4HZ-5k-gcc"/>
                                             <constraint firstItem="wSE-i4-hlG" firstAttribute="centerX" secondItem="fgJ-yD-scH" secondAttribute="centerX" id="6fG-Sp-Atb"/>
@@ -692,7 +706,7 @@
                                         </constraints>
                                     </view>
                                 </subviews>
-                                <color key="backgroundColor" red="0.98872023819999999" green="0.98872023819999999" blue="0.98872023819999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <color key="backgroundColor" name="CustomBackgroundColor"/>
                                 <constraints>
                                     <constraint firstAttribute="bottom" secondItem="fgJ-yD-scH" secondAttribute="bottom" id="Mn1-J5-eKU"/>
                                     <constraint firstItem="fgJ-yD-scH" firstAttribute="top" secondItem="Gga-4q-3at" secondAttribute="top" id="oms-lX-cNR"/>
@@ -702,7 +716,7 @@
                             </scrollView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="xT4-lr-Z6X"/>
-                        <color key="backgroundColor" red="0.98872023819999999" green="0.98872023819999999" blue="0.98872023819999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="backgroundColor" name="CustomBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="fgJ-yD-scH" firstAttribute="width" secondItem="MAF-m5-mcF" secondAttribute="width" id="A77-CP-hd0"/>
                             <constraint firstItem="Gga-4q-3at" firstAttribute="top" secondItem="xT4-lr-Z6X" secondAttribute="top" id="CWy-q7-dbF"/>
@@ -763,7 +777,7 @@
                                             <constraint firstAttribute="height" constant="50" id="eBl-Cc-STi"/>
                                             <constraint firstAttribute="width" constant="119" id="wkk-le-kso"/>
                                         </constraints>
-                                        <color key="tintColor" red="0.84705877299999999" green="0.5176470876" blue="0.65882354970000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                        <color key="tintColor" name="CustomPink"/>
                                         <state key="normal" title="Button"/>
                                         <buttonConfiguration key="configuration" style="filled" title="Edit">
                                             <fontDescription key="titleFontDescription" type="system" pointSize="19"/>
@@ -778,7 +792,7 @@
                                             <constraint firstAttribute="width" constant="119" id="JvH-AC-Rgp"/>
                                             <constraint firstAttribute="height" constant="50" id="hYQ-1O-nt2"/>
                                         </constraints>
-                                        <color key="tintColor" red="0.35686278339999999" green="0.70588237050000002" blue="0.85490196939999996" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                        <color key="tintColor" name="CustomBlue"/>
                                         <state key="normal" title="Button"/>
                                         <buttonConfiguration key="configuration" style="filled" title="Show QR">
                                             <fontDescription key="titleFontDescription" type="system" pointSize="19"/>
@@ -846,12 +860,6 @@
                                     <constraint firstAttribute="width" secondItem="ZUf-hr-oCg" secondAttribute="height" multiplier="1:1" id="aIn-nv-oLN"/>
                                 </constraints>
                             </imageView>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4W9-rf-APK">
-                                <rect key="frame" x="29" y="29" width="24" height="14"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="plain"/>
-                            </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="H6l-zd-oSQ">
                                 <rect key="frame" x="341" y="20" width="53" height="33"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
@@ -864,7 +872,7 @@
                             </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
-                        <color key="backgroundColor" red="0.98823523520000001" green="0.98823523520000001" blue="0.98823523520000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                        <color key="backgroundColor" name="CustomBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="ZUf-hr-oCg" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="0YB-Pq-BRS"/>
                             <constraint firstItem="ZUf-hr-oCg" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="30" id="2Zf-Gr-Zmr"/>
@@ -974,7 +982,7 @@
                                         <state key="normal" title="Button"/>
                                         <buttonConfiguration key="configuration" style="filled" title="Dismiss">
                                             <color key="baseForegroundColor" red="0.98872023819999999" green="0.98872023819999999" blue="0.98872023819999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                            <color key="baseBackgroundColor" red="0.35686278339999999" green="0.70588237050000002" blue="0.85490196939999996" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                            <color key="baseBackgroundColor" name="CustomBlue"/>
                                         </buttonConfiguration>
                                         <connections>
                                             <action selector="dismiss:" destination="6Gj-BC-Cyn" eventType="touchUpInside" id="zoo-nW-rPE"/>
@@ -1040,7 +1048,7 @@
                                         <state key="normal" title="Button"/>
                                         <buttonConfiguration key="configuration" style="filled" title="Send me a new password">
                                             <color key="baseForegroundColor" red="0.98872023819999999" green="0.98872023819999999" blue="0.98872023819999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                            <color key="baseBackgroundColor" red="0.35686278339999999" green="0.70588237050000002" blue="0.85490196939999996" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                            <color key="baseBackgroundColor" name="CustomBlue"/>
                                         </buttonConfiguration>
                                         <connections>
                                             <action selector="dismiss:" destination="6Gj-BC-Cyn" eventType="touchUpInside" id="akV-IY-NiB"/>
@@ -1106,7 +1114,7 @@
     <inferredMetricsTieBreakers>
         <segue reference="wlE-Bp-DlM"/>
         <segue reference="kc4-jX-Hk0"/>
-        <segue reference="yCy-7i-fDh"/>
+        <segue reference="oYJ-SH-qnZ"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="background" width="390" height="481"/>
@@ -1116,6 +1124,15 @@
         <image name="person.circle" catalog="system" width="128" height="121"/>
         <image name="person.text.rectangle" catalog="system" width="128" height="93"/>
         <image name="plus.circle.fill" catalog="system" width="128" height="121"/>
+        <namedColor name="CustomBackgroundColor">
+            <color red="0.98000001907348633" green="0.98000001907348633" blue="0.98000001907348633" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <namedColor name="CustomBlue">
+            <color red="0.36000001430511475" green="0.70999997854232788" blue="0.85000002384185791" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <namedColor name="CustomPink">
+            <color red="0.8399999737739563" green="0.51999998092651367" blue="0.6600000262260437" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
         <systemColor name="labelColor">
             <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

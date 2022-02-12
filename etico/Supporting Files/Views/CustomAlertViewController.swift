@@ -26,13 +26,6 @@ class CustomAlertViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // MARK: - Dark mode configuration
-        switch traitCollection.userInterfaceStyle {
-               case .light, .unspecified:
-            print("light")
-               case .dark:
-            alertViewCard.backgroundColor = Constants.customGrey
-        }
         
         // MARK: - View configuration
         alertViewCard.layer.cornerRadius = 20

@@ -7,6 +7,7 @@
 
 import UIKit
 import Kingfisher
+import SwiftUI
 
 class EmployeeViewController: UIViewController {
     // MARK: - Variables
@@ -24,15 +25,7 @@ class EmployeeViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // MARK: - Dark mode configuration
-        switch traitCollection.userInterfaceStyle {
-               case .light, .unspecified:
-            print("light")
-               case .dark:
-            view.backgroundColor = UIColor.darkGray
-            card.backgroundColor = Constants.customGrey
-        }
-        
+
         // MARK: - View configuration
         card.layer.cornerRadius = 20
         card.layer.shadowColor = UIColor.black.cgColor
@@ -114,10 +107,13 @@ class EmployeeViewController: UIViewController {
                           second.dismiss(animated: true)
                      }
             } failure: { error in
-                let errorAlert = Constants.createAlert(title: "Error", message: error, image: Constants.errorImage, color: Constants.customPink, callBack: nil)
+                let errorAlert = Constants.createAlert(title: "Error",
+                                                       message: error,
+                                                       image: Constants.errorImage,
+                                                       color: UIColor(named: "CustomPink") ?? Constants.customPink,
+                                                       callBack: nil)
                 self.present(errorAlert, animated: true, completion: nil)
             }
-
         }
     }
 }

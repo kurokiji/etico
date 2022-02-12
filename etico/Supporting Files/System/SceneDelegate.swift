@@ -16,6 +16,39 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // Use this method to optionally configure and attach the UIWindow `window` to the provided UIWindowScene `scene`.
         // If using a storyboard, the `window` property will automatically be initialized and attached to the scene.
         // This delegate does not imply the connecting scene or session are new (see `application:configurationForConnectingSceneSession` instead).
+        if let windowScene = scene as? UIWindowScene {
+            var initialViewController: UIViewController
+            let storyboard = UIStoryboard(name: "Main", bundle: nil)
+            self.window = UIWindow(windowScene: windowScene)
+            if let loggedUser = try? UserDefaults.standard.getObject(forKey: "loggedUser", castTo: User.self), let apitoken = loggedUser.api_token {
+                           if loggedUser.job == Constants.employee {
+                               initialViewController = storyboard.instantiateViewController(withIdentifier: "ProfileViewController")
+                           } else {
+                               initialViewController = storyboard.instantiateViewController(withIdentifier: "EmployeesListController")
+                           }
+                       } else {
+                           initialViewController = storyboard.instantiateViewController(withIdentifier: "LoginViewController")
+                       }
+                    self.window!.rootViewController = initialViewController
+                    self.window!.makeKeyAndVisible()
+        }
+        
+        
+//        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+//        var initialViewController = UIViewController();
+//        if let windowScene = scene as? UIWindowScene {
+//            if let loggedUser = try? UserDefaults.standard.getObject(forKey: "loggedUser", castTo: User.self), let apitoken = loggedUser.api_token {
+//                if loggedUser.job == Constants.employee {
+//                    initialViewController = storyboard.instantiateViewController(withIdentifier: "ProfileViewController")
+//                } else {
+//                    initialViewController = storyboard.instantiateViewController(withIdentifier: "EmployeesListController")
+//                }
+//            } else {
+//                initialViewController = storyboard.instantiateViewController(withIdentifier: "LoginViewController")
+//            }
+//            windowScene.keyWindow?.rootViewController = initialViewController
+//        }
+        
         guard let _ = (scene as? UIWindowScene) else { return }
     }
 

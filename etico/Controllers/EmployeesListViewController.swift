@@ -34,11 +34,15 @@ class EmployeesListViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        // MARK: - Fetch logged user
+        if let user = try? UserDefaults.standard.getObject(forKey: "loggedUser", castTo: User.self){
+            loggedUser = user
+        }
         
         // MARK: - View configuration and delegates
         employeesTable.dataSource = self
         employeesTable.delegate = self
-        activityIndicator.color = Constants.customYellow
+        activityIndicator.color = UIColor(named: "CustomYellow")
         showIDButton.isEnabled = false
         filterButton.isEnabled = false
         addButton.isEnabled = false
@@ -172,24 +176,19 @@ class EmployeesListViewController: UIViewController {
                 self.present(Constants.createAlert(title: "An error has occured",
                                                    message: error,
                                                    image: Constants.alertImage,
-                                                   color: Constants.customPink,
+                                                   color: UIColor(named: "CustomPink")!,
                                                    callBack: {
                                                     self.retrieveData()
                 }),
                              animated: true)
             } noPermission: { error in
-                let userDefaults = UserDefaults.standard
-                do {
-                    try userDefaults.removeObject(forKey: "loggedUser")
-                } catch {
-                    print(error.localizedDescription)
-                }
-            
-                // TODO: ¿Por que tengo que lanzar doble dismiss?
-                self.present(Constants.createAlert(title: "as", message: "asda", image: Constants.errorImage, color: Constants.customPink, callBack: {
-                    self.dismiss(animated: true) {
-                        self.dismiss(animated: true, completion: nil)
-                    }
+                let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "LoginViewController") as! LoginViewController
+                self.present(vc, animated: true, completion: nil)
+                self.present(Constants.createAlert(title: "Permission Error", message: "You don't have permission to performance this operation, please, login again", image: Constants.errorImage, color: UIColor(named: "CustomPink") ?? Constants.customPink, callBack: {
+                
+                        let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "LoginViewController") as! LoginViewController
+                        self.present(vc, animated: true, completion: nil)
+
                 }), animated: true, completion: nil)
             }
         }
